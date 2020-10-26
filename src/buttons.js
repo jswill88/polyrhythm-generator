@@ -5,17 +5,15 @@ import './App.css';
 
 
 export default function Buttons() {
+
   const [display, setDisplay] = useState('none');
   const [display2, setDisplay2] = useState('none');
-  // const display = useRef('inline')
-  // const displayRef = useRef('inline');
-  // const previousTimeRef = useRef();
-
-  // const requestRef = useRef();
-
-  // const previousTimeRef = useRef(0);
+  const [leftRhythm, setLeftRhythm] = useState(2);
+  const [rightRhythm, setRightRhythm] = useState(3);
+  const [leftLoop, setLeftLoop] = useState();
 
   const styles = {
+
     square: {
       height: 75,
       width: 75,
@@ -23,6 +21,7 @@ export default function Buttons() {
       marginLeft: 25,
       display: display,
     },
+
     square2: {
       height: 75,
       width: 75,
@@ -31,91 +30,83 @@ export default function Buttons() {
       display: display2,
     },
   }
-  useEffect(() => {
-    new Tone.Loop(time => {
-      // displayRef.current = 'inline';
-      synth.triggerAttackRelease("F3", '16n', time);
-      // setDisplay(current => 'inline')
 
-      Tone.Draw.schedule(() => {
-        // do drawing or DOM manipulation here
-        setDisplay(prev => prev === 'inline' ? 'none' : 'inline')
-        // displayRef.current = displayRef.current === 'none' ? 'inline' : 'none'
-        console.log(time);
-      }, time)
-        .schedule(() => {
-          // do drawing or DOM manipulation here
-          setDisplay('none')
-          // displayRef.current = displayRef.current === 'none' ? 'inline' : 'none'
+  // useEffect( () => {
+    // let loop1 = new Tone.Loop(time => {
+    //   synth.triggerAttackRelease("F3", '16n', time);
 
-        }, time + .15);
-    }, 7).start(.05);
+    //   Tone.Draw.schedule(() => {
 
-    new Tone.Loop(time => {
-      synth2.triggerAttackRelease("C4", '16n', time);
-      Tone.Draw.schedule(() => {
-        // do drawing or DOM manipulation here
-        setDisplay2(prev => prev === 'inline' ? 'none' : 'inline')
-        // displayRef.current = displayRef.current === 'none' ? 'inline' : 'none'
-        console.log(time);
-      }, time)
-        .schedule(() => {
-          // do drawing or DOM manipulation here
-          setDisplay2('none')
-          // displayRef.current = displayRef.current === 'none' ? 'inline' : 'none'
+    //     setDisplay(prev => prev === 'block' ? 'none' : 'block')
+    //     console.log(time);
+    //   }, time)
+    //     .schedule(() => {
+    //       setDisplay('none')
 
-        }, time + .15);
+    //     }, time + .15);
+    // }, leftRhythm).start(.05);
 
+    // let loop2 = new Tone.Loop(time => {
+    //   synth2.triggerAttackRelease("C4", '16n', time);
+    //   Tone.Draw.schedule(() => {
+    //     setDisplay2(prev => prev === 'block' ? 'none' : 'block')
+    //     console.log(time);
+    //   }, time)
+    //     .schedule(() => {
+    //       setDisplay2('none')
+    //     }, time + .15);
 
-    }, 5).start(.05);
+    // }, rightRhythm).start(.05);
 
-    // const animate = time => {
+    // var synth = new Tone.PolySynth(Tone.Synth).toDestination();
+    // var synth2 = new Tone.PolySynth(Tone.Synth).toDestination();
 
-    //   console.log(previousTimeRef.current)
-
-    //   // if(!(time * 1000 % 22)) {
-    //     // if (previousTimeRef.current) {
-    //       if(time - previousTimeRef.current > 1000) {
-
-    //         setDisplay(prev => prev === 'none' ? 'inline' : 'none');
-    //         previousTimeRef.current = time;
-    //       }
-    //     // }  
-
-
-
-    //   // }
-    //   requestRef.current = requestAnimationFrame(animate);
-
-    // }
-    var synth = new Tone.PolySynth(Tone.Synth).toDestination();
-    var synth2 = new Tone.PolySynth(Tone.Synth).toDestination();
-
-  }, [])
+    // return () => { loop1.dispose(); loop2.dispose() };
+  // }, [leftRhythm, rightRhythm])
 
 
 
   const setTimers = async () => {
+    var synth = new Tone.PolySynth(Tone.Synth).toDestination();
+    var synth2 = new Tone.PolySynth(Tone.Synth).toDestination();
+  
+    let leftLoop = new Tone.Loop(time => {
+      synth.triggerAttackRelease("F3", '16n', time);
+  
+      Tone.Draw.schedule(() => {
+  
+        setDisplay(prev => prev === 'block' ? 'none' : 'block')
+        console.log(time);
+      }, time)
+        .schedule(() => {
+          setDisplay('none')
+  
+        }, time + .15);
+    }, leftRhythm).start(.05);
+    
+    setLeftLoop(leftLoop);
+  
+    new Tone.Loop(time => {
+      synth2.triggerAttackRelease("C4", '16n', time);
+      Tone.Draw.schedule(() => {
+        setDisplay2(prev => prev === 'block' ? 'none' : 'block')
+        console.log(time);
+      }, time)
+        .schedule(() => {
+          setDisplay2('none')
+        }, time + .15);
+  
+    }, rightRhythm).start(.05);
+
     await Tone.start();
     Tone.setContext(new Tone.Context({ latencyHint: "playback" }))
     playSynth();
   }
-  // new Draw(time => console.log(time))
 
   const playSynth = () => {
-    // requestRef.current = requestAnimationFrame(animate);
-    // Tone.Transport.scheduleRepeat((time) => {
-    //   // use the time argument to schedule a callback with Draw
-    //   Tone.Draw.schedule(() => {
-    //     // do drawing or DOM manipulation here
-    //     // setDisplay(prev => prev === 'none' ? 'inline' : 'none')
-    //     display.current = display.current === 'none' ? 'inline' : 'none'
-    //     console.log(time);
-    //   }, time);
 
-    // }, 4/2);
-
-    Tone.Transport.bpm.value = 800;
+    console.log(rightRhythm);
+    Tone.Transport.bpm.value = leftRhythm * 120;
     Tone.Transport.start();
   }
 
@@ -123,13 +114,18 @@ export default function Buttons() {
     Tone.Transport.stop();
   }
 
+  const handleLeft = event => setLeftRhythm(event.target.value);
+  const handleRight = event => setRightRhythm(event.target.value);
+
   return (
     <div id='wrapper'>
       <button id='button' onClick={setTimers}>Start</button>
       <button id='button' onClick={stop}>Stop</button>
-      <br/>
+  
       <div style={styles.square2}></div>
       <div style={styles.square}></div>
+      <input type="number" defaultValue={2} onChange={handleLeft}/> 
+      <input type="number" defaultValue={3} onChange={handleRight}/> 
     </div>
   );
 }
