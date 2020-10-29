@@ -1,13 +1,12 @@
 
-import Buttons from './buttons'
-import Counter from './counterPractice'
+import Buttons from './buttons';
 
 
 function App() {
   return (
     <>
       <Buttons />
-      <Counter />
+  
     </>
   );
 }
