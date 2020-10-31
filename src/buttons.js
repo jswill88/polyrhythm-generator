@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import * as Tone from 'tone';
 
-import './App.css';
+import './App.scss';
 
 export default function Buttons() {
 
-  const [leftSquaare, setLeftSquare] = useState('none');
+  const [leftSquare, setLeftSquare] = useState('none');
   const [rightSquare, setRightSquare] = useState('none');
   const [leftRhythm, setLeftRhythm] = useState(4);
   const [rightRhythm, setRightRhythm] = useState(3);
+  const [tempo, setTempo] = useState(120);
 
   const styles = {
 
-    square: {
+    rightSquare: {
       height: 75,
       width: 75,
       backgroundColor: 'magenta',
-      marginLeft: 25,
-      display: leftSquaare,
+      margin: 10,
+      display: leftSquare,
     },
 
-    square2: {
+    leftSquare: {
       height: 75,
       width: 75,
       backgroundColor: 'green',
-      marginRight: 25,
+      margin: 10,
       display: rightSquare,
     },
 
@@ -32,7 +33,7 @@ export default function Buttons() {
 
   const setTimers = async () => {
     await Tone.start();
-    Tone.Transport.bpm.value = rightRhythm * 120 / 2;
+    Tone.Transport.bpm.value = rightRhythm * tempo;
     Tone.Transport.start();
   }
 
@@ -44,7 +45,7 @@ export default function Buttons() {
 
     let lLoop = new Tone.Loop(time => {
 
-      synth.triggerAttackRelease("F3", '64n', time);
+      synth.triggerAttackRelease("C4", '64n', time);
       Tone.Draw.schedule(() => {
         setLeftSquare(prev => prev === 'block' ? 'none' : 'block')
       }, time)
@@ -56,7 +57,7 @@ export default function Buttons() {
 
     let rLoop = new Tone.Loop(time => {
 
-      synth2.triggerAttackRelease("C4", '64n', time);
+      synth2.triggerAttackRelease("F3", '64n', time);
       Tone.Draw.schedule(() => {
         setRightSquare(prev => prev === 'block' ? 'none' : 'block')
       }, time)
@@ -66,14 +67,14 @@ export default function Buttons() {
 
     }, `0:${rightRhythm}`).start(.05)
 
-    Tone.Transport.bpm.value = rightRhythm * 120 / 2;
+    Tone.Transport.bpm.value = rightRhythm * tempo;
 
     return () => {
       lLoop.cancel()
       rLoop.cancel();
     }
 
-  }, [rightRhythm, leftRhythm])
+  }, [rightRhythm, leftRhythm, tempo])
 
   const stop = () => {
     Tone.Transport.stop();
@@ -91,19 +92,45 @@ export default function Buttons() {
     }
   };
 
+  const handleTempo = event => {
+    Tone.Transport.bpm.value = event.target.value * rightRhythm;
+    setTempo(event.target.value)
+  }
+
+  const squares = (side, square) => {
+    const squares = [];
+    for (let i = 0; i < side; i++) {
+      squares.push(
+        <div
+          key={i}
+          style={styles[square]}>
+        </div>)
+    }
+    return squares;
+  }
+
   return (
     <div id='wrapper'>
       <section>
 
         <button id='button' onClick={setTimers}>Start</button>
         <button id='button' onClick={stop}>Stop</button>
+
+        <input type="range" min="40" max="300" step="1" defaultValue={tempo} onChange={handleTempo} />
       </section>
 
-      <input type="number" defaultValue={leftRhythm} onChange={handleLeft} />
-      <input type="number" defaultValue={rightRhythm} onChange={handleRight} />
+      <input type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
 
-      <div style={styles.square2}></div>
-      <div style={styles.square}></div>
+      <div className="blinkBox">
+        {squares(leftRhythm, 'leftSquare')}
+      </div>
+
+
+      <input type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
+
+      <div className="blinkBox">
+        {squares(rightRhythm, 'rightSquare')}
+      </div>
 
     </div>
   );
