@@ -5,20 +5,24 @@ import './App.scss';
 
 export default function Buttons() {
 
-  const [leftSquare, setLeftSquare] = useState('none');
+  const [leftSquare, setLeftSquare] = useState('block');
   const [rightSquare, setRightSquare] = useState('none');
   const [leftRhythm, setLeftRhythm] = useState(4);
   const [rightRhythm, setRightRhythm] = useState(3);
   const [tempo, setTempo] = useState(120);
+  const [highlightNum, setHighlightNum] = useState(-1);
 
   const styles = {
 
     rightSquare: {
+      // 1: {
       height: 75,
       width: 75,
-      backgroundColor: 'magenta',
+      // backgroundColor: '#f5f5f5',
       margin: 10,
       display: leftSquare,
+      border: "1px solid black"
+      // }
     },
 
     leftSquare: {
@@ -28,8 +32,8 @@ export default function Buttons() {
       margin: 10,
       display: rightSquare,
     },
-
   }
+
 
   const setTimers = async () => {
     await Tone.start();
@@ -47,10 +51,11 @@ export default function Buttons() {
 
       synth.triggerAttackRelease("C4", '64n', time);
       Tone.Draw.schedule(() => {
-        setLeftSquare(prev => prev === 'block' ? 'none' : 'block')
+        // setLeftSquare(prev => prev === 'block' ? 'none' : 'block')
+        setHighlightNum(prev => (prev + 1) % rightRhythm )
       }, time)
         .schedule(() => {
-          setLeftSquare('none')
+          // setLeftSquare('none')
         }, time + .15);
 
     }, `0:${leftRhythm}`).start(.05)
@@ -60,6 +65,7 @@ export default function Buttons() {
       synth2.triggerAttackRelease("F3", '64n', time);
       Tone.Draw.schedule(() => {
         setRightSquare(prev => prev === 'block' ? 'none' : 'block')
+        
       }, time)
         .schedule(() => {
           setRightSquare('none')
@@ -102,8 +108,9 @@ export default function Buttons() {
     for (let i = 0; i < side; i++) {
       squares.push(
         <div
+          className={i === highlightNum ? `${square} highlight` : `${square}`}
           key={i}
-          style={styles[square]}>
+          style={styles[square]/*[i]*/}>
         </div>)
     }
     return squares;

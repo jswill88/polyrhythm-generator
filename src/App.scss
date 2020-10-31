@@ -17,4 +17,13 @@
   width: 50%;
   flex-wrap: wrap;
 }
+.rightSquare {
+  background-color: pink;
+}
+.rightSquare.highlight {
+
+  // .highlight {
+    background-color: magenta;
+  // }
+}
  
