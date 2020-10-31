@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import * as Tone from 'tone';
 
-import './App.css';
+import './App.scss';
 
 export default function Buttons() {
 
-  const [leftSquaare, setLeftSquare] = useState('none');
+  const [leftSquare, setLeftSquare] = useState('none');
   const [rightSquare, setRightSquare] = useState('none');
   const [leftRhythm, setLeftRhythm] = useState(4);
   const [rightRhythm, setRightRhythm] = useState(3);
@@ -13,19 +13,19 @@ export default function Buttons() {
 
   const styles = {
 
-    square: {
+    rightSquare: {
       height: 75,
       width: 75,
       backgroundColor: 'magenta',
-      marginLeft: 25,
-      display: leftSquaare,
+      margin: 10,
+      display: leftSquare,
     },
 
-    square2: {
+    leftSquare: {
       height: 75,
       width: 75,
       backgroundColor: 'green',
-      marginRight: 25,
+      margin: 10,
       display: rightSquare,
     },
 
@@ -93,8 +93,20 @@ export default function Buttons() {
   };
 
   const handleTempo = event => {
-      Tone.Transport.bpm.value = event.target.value * rightRhythm;
-      setTempo(event.target.value)
+    Tone.Transport.bpm.value = event.target.value * rightRhythm;
+    setTempo(event.target.value)
+  }
+
+  const squares = (side, square) => {
+    const squares = [];
+    for (let i = 0; i < side; i++) {
+      squares.push(
+        <div
+          key={i}
+          style={styles[square]}>
+        </div>)
+    }
+    return squares;
   }
 
   return (
@@ -103,13 +115,22 @@ export default function Buttons() {
 
         <button id='button' onClick={setTimers}>Start</button>
         <button id='button' onClick={stop}>Stop</button>
+
+        <input type="range" min="40" max="300" step="1" defaultValue={tempo} onChange={handleTempo} />
       </section>
 
-      <input type="number" defaultValue={leftRhythm} onChange={handleLeft} />
-      <input type="number" defaultValue={rightRhythm} onChange={handleRight} />
-      <input type="range" min="40" max="300" step="1" defaultValue={tempo} onChange={handleTempo} />
-      <div style={styles.square2}></div>
-      <div style={styles.square}></div>
+      <input type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
+
+      <div className="blinkBox">
+        {squares(leftRhythm, 'leftSquare')}
+      </div>
+
+
+      <input type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
+
+      <div className="blinkBox">
+        {squares(rightRhythm, 'rightSquare')}
+      </div>
 
     </div>
   );
