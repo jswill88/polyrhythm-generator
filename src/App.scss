@@ -1,11 +1,55 @@
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+
+
 #wrapper {
   width: 100%;
-  // height: 400px;
   border: 1px solid black;
   display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
 }
 #button {
   height: 20px;
@@ -13,29 +57,52 @@
 }
 .blinkBox {
   display: flex;
-  border: 2px dotted orange;
   width: 50%;
-  justify-content: flex-start;
-  align-items: flex-start;
   flex-direction: column;
-  flex-wrap: wrap;
+  height: 75vh;
+  border: 2px solid black;
+  &:first-of-type {
+    .sideBody div {
+      justify-content: flex-end;
+      padding-right: 5px;
+    }
+  }
 }
-.blinkBox:first-of-type {
-  justify-content: flex-start;
-  flex-wrap: wrap-reverse;
+
+.sideBody{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  div {
+    justify-self: stretch;
+    flex-grow: 5;
+    display: flex;
+    padding-left: 5px;
+  }
 }
+.sideBody{
+  // background-color: black;
+}
+
 .rightSquare {
   background-color: pink;
 }
 .rightSquare.highlight {
-
-  // .highlight {
-    background-color: magenta;
-  // }
+  background-color: magenta;
 }
 .leftSquare {
   background-color: mediumseagreen;
 }
 .leftSquare.highlight {
   background-color: mediumspringgreen;
+}
+.container {
+  display: flex;
+}
+.sideHeader {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  height: 10vh;
+  align-items: center;
 }

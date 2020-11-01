@@ -16,18 +16,19 @@ export default function Buttons() {
   const styles = {
 
     rightSquare: {
-      minHeight: 75,
-      width: 75,
-      margin: 10,
-      display: 'block',
-      border: "1px solid black"
+      height: '50%',
+      maxHeight: 50,
+      maxWidth: '50%',
+      // margin: 'auto',
+      // border: "1px solid black"
     },
 
     leftSquare: {
-      height: 75,
-      width: 75,
-      margin: 10,
-      border: "1px solid black"
+      height: '50%',
+      maxWidth: '50%',
+      maxHeight: 50,
+      // margin: 'auto',
+      // border: "1px solid black"
     },
   }
 
@@ -43,8 +44,11 @@ export default function Buttons() {
 
   useEffect(() => {
 
-    var synth = new Tone.PolySynth(Tone.Synth).toDestination();
-    var synth2 = new Tone.PolySynth(Tone.Synth).toDestination();
+    const leftPanner = new Tone.Panner(-1);
+    const rightPanner = new Tone.Panner(-1);
+    var synth = new Tone.PolySynth(Tone.Synth).connect(leftPanner).toDestination();
+    var synth2 = new Tone.PolySynth(Tone.Synth).connect(rightPanner).toDestination();
+
 
     let lLoop = new Tone.Loop(time => {
       console.log(time)
@@ -105,15 +109,18 @@ export default function Buttons() {
     const squares = [];
     for (let i = 0; i < side; i++) {
       squares.push(
-        <div
-          className={
-            square === 'leftSquare' ?
-              i === rightHighlight ? `${square} highlight` : `${square}`
-              : i === leftHighlight ? `${square} highlight` : `${square}`
-          }
-          key={i}
-          style={styles[square]/*[i]*/}>
-        </div>)
+        <div>
+          <div
+            className={
+              square === 'leftSquare' ?
+                i === rightHighlight ? `${square} highlight` : `${square}`
+                : i === leftHighlight ? `${square} highlight` : `${square}`
+            }
+            key={i}
+            style={styles[square]/*[i]*/}>
+          </div>
+        </div>
+      )
     }
     return squares;
   }
@@ -156,19 +163,35 @@ export default function Buttons() {
         <button id='button' onClick={stop}>Stop</button>
       </section>
 
-      <label for="leftSub">Subdivision </label>
-      <input id="leftSub" type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
-      {notes(['A4', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4'], 'left')}
-      <div className="blinkBox">
-        {squares(leftRhythm, 'leftSquare')}
-      </div>
+      <div className="container">
 
+        <div className="blinkBox">
 
-      <label for="rightSub">Subdivision </label>
-      <input id="rightSub" type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
-      {notes(['A3', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3'], 'right')}
-      <div className="blinkBox">
-        {squares(rightRhythm, 'rightSquare')}
+          <div className="sideHeader">
+            <label for="leftSub">Subdivision:</label>
+            <input id="leftSub" type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
+            {notes(['A4', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4'], 'left')}
+          </div>
+          <div className="sideBody">
+
+            {squares(leftRhythm, 'leftSquare')}
+          </div>
+        </div>
+
+        <div className="blinkBox">
+
+          <div className="sideHeader">
+            <label for="rightSub">Subdivision:</label>
+            <input id="rightSub" type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
+            {notes(['A3', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3'], 'right')}
+          </div>
+
+          <div className="sideBody">
+            {squares(rightRhythm, 'rightSquare')}
+          </div>
+
+        </div>
+
       </div>
 
     </div>
