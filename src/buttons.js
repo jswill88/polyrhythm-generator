@@ -90,16 +90,12 @@ export default function Buttons() {
   const handleLeft = event => {
     if (event.target.value) {
       setLeftRhythm(event.target.value)
-      // setLeftHighlight(0)
-      // setRightHighlight(0)
     }
   };
 
   const handleRight = event => {
     if (event.target.value) {
       setRightRhythm(event.target.value)
-      // setLeftHighlight(0)
-      // setRightHighlight(0)
     }
   };
 
@@ -128,12 +124,14 @@ export default function Buttons() {
     return squares;
   }
 
-  const notes = (noteArray, rl) => {
+  function Notes ({noteArray, rl}) {
     return (
       <>
         <label for="notes">Note: </label>
         <select
           id="notes"
+          // defaultValue={rl === 'right' ? leftNote : rightNote}
+          // value={rl === 'right' ? leftNote : rightNote}
           onChange={
             e => rl === 'right'
               ? setLeftNote(e.target.value)
@@ -173,7 +171,14 @@ export default function Buttons() {
           <div className="sideHeader">
             <label for="leftSub">Subdivision:</label>
             <input id="leftSub" type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
-            {notes(['A4', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4'], 'left')}
+            {Notes({
+              noteArray: ['A4', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4'],
+              rl: 'left'
+            })}
+            {/* <Notes
+            noteArray={['A4', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4']}
+            rl={'left'}
+            /> */}
           </div>
           <div className="sideBody">
 
@@ -186,7 +191,14 @@ export default function Buttons() {
           <div className="sideHeader">
             <label for="rightSub">Subdivision:</label>
             <input id="rightSub" type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
-            {notes(['A3', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3'], 'right')}
+            {Notes({
+              noteArray: ['A3', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3'],
+              rl:'right'
+              })}
+            {/* <Notes
+            noteArray={['A3', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3']}
+            rl={'right'}
+            /> */}
           </div>
 
           <div className="sideBody">
