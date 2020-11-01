@@ -5,37 +5,36 @@ import './App.scss';
 
 export default function Buttons() {
 
-  const [leftSquare, setLeftSquare] = useState('block');
-  const [rightSquare, setRightSquare] = useState('none');
   const [leftRhythm, setLeftRhythm] = useState(4);
   const [rightRhythm, setRightRhythm] = useState(3);
   const [tempo, setTempo] = useState(120);
-  const [highlightNum, setHighlightNum] = useState(-1);
+  const [leftHighlight, setLeftHighlight] = useState(-1);
+  const [rightHighlight, setRightHighlight] = useState(-1);
+  const [leftNote, setLeftNote] = useState('F3')
+  const [rightNote, setRightNote] = useState('C4')
 
   const styles = {
 
     rightSquare: {
-      // 1: {
-      height: 75,
+      minHeight: 75,
       width: 75,
-      // backgroundColor: '#f5f5f5',
       margin: 10,
-      display: leftSquare,
+      display: 'block',
       border: "1px solid black"
-      // }
     },
 
     leftSquare: {
       height: 75,
       width: 75,
-      backgroundColor: 'green',
       margin: 10,
-      display: rightSquare,
+      border: "1px solid black"
     },
   }
 
 
   const setTimers = async () => {
+    setLeftHighlight(-1);
+    setRightHighlight(-1);
     await Tone.start();
     Tone.Transport.bpm.value = rightRhythm * tempo;
     Tone.Transport.start();
@@ -48,28 +47,21 @@ export default function Buttons() {
     var synth2 = new Tone.PolySynth(Tone.Synth).toDestination();
 
     let lLoop = new Tone.Loop(time => {
-
-      synth.triggerAttackRelease("C4", '64n', time);
+      console.log(time)
+      synth.triggerAttackRelease(leftNote, '64n', time);
       Tone.Draw.schedule(() => {
-        // setLeftSquare(prev => prev === 'block' ? 'none' : 'block')
-        setHighlightNum(prev => (prev + 1) % rightRhythm )
+        setLeftHighlight(prev => (prev + 1) % rightRhythm)
       }, time)
-        .schedule(() => {
-          // setLeftSquare('none')
-        }, time + .15);
 
     }, `0:${leftRhythm}`).start(.05)
 
     let rLoop = new Tone.Loop(time => {
-
-      synth2.triggerAttackRelease("F3", '64n', time);
+      console.log(time)
+      synth2.triggerAttackRelease(rightNote, '64n', time);
       Tone.Draw.schedule(() => {
-        setRightSquare(prev => prev === 'block' ? 'none' : 'block')
-        
+
+        setRightHighlight(prev => (prev + 1) % leftRhythm)
       }, time)
-        .schedule(() => {
-          setRightSquare('none')
-        }, time + .15);
 
     }, `0:${rightRhythm}`).start(.05)
 
@@ -80,21 +72,27 @@ export default function Buttons() {
       rLoop.cancel();
     }
 
-  }, [rightRhythm, leftRhythm, tempo])
+  }, [rightRhythm, leftRhythm, tempo, leftNote, rightNote])
 
   const stop = () => {
     Tone.Transport.stop();
+    setLeftHighlight(-1)
+    setRightHighlight(-1)
   }
 
   const handleLeft = event => {
     if (event.target.value) {
       setLeftRhythm(event.target.value)
+      setLeftHighlight(0)
+      setRightHighlight(0)
     }
   };
 
   const handleRight = event => {
     if (event.target.value) {
       setRightRhythm(event.target.value)
+      setLeftHighlight(0)
+      setRightHighlight(0)
     }
   };
 
@@ -108,7 +106,11 @@ export default function Buttons() {
     for (let i = 0; i < side; i++) {
       squares.push(
         <div
-          className={i === highlightNum ? `${square} highlight` : `${square}`}
+          className={
+            square === 'leftSquare' ?
+              i === rightHighlight ? `${square} highlight` : `${square}`
+              : i === leftHighlight ? `${square} highlight` : `${square}`
+          }
           key={i}
           style={styles[square]/*[i]*/}>
         </div>)
@@ -116,25 +118,55 @@ export default function Buttons() {
     return squares;
   }
 
+  const notes = (noteArray, rl) => {
+    return (
+      <>
+        <label for="notes">Note: </label>
+        <select
+          id="notes"
+          onChange={
+            e => rl === 'right'
+              ? setLeftNote(e.target.value)
+              : setRightNote(e.target.value)
+          }>
+          {noteArray.map((note, i) =>
+            <option
+              selected={
+                rl === 'right'
+                  ? note === leftNote ? true : false
+                  : note === rightNote ? true : false
+              }
+              value={note}
+              key={i}>
+              {note.slice(0, note.length - 1)}
+            </option>
+          )}
+        </select>
+      </>
+    )
+  }
+
   return (
-    <div id='wrapper'>
+    <div>
       <section>
 
+        <label for="tempo">Tempo: {tempo} bpm</label>
+        <input type="range" name="tempo" min="40" max="300" step="1" defaultValue={tempo} onChange={handleTempo} />
         <button id='button' onClick={setTimers}>Start</button>
         <button id='button' onClick={stop}>Stop</button>
-
-        <input type="range" min="40" max="300" step="1" defaultValue={tempo} onChange={handleTempo} />
       </section>
 
-      <input type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
-
+      <label for="leftSub">Subdivision </label>
+      <input id="leftSub" type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
+      {notes(['A4', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4'], 'left')}
       <div className="blinkBox">
         {squares(leftRhythm, 'leftSquare')}
       </div>
 
 
-      <input type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
-
+      <label for="rightSub">Subdivision </label>
+      <input id="rightSub" type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
+      {notes(['A3', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3'], 'right')}
       <div className="blinkBox">
         {squares(rightRhythm, 'rightSquare')}
       </div>
