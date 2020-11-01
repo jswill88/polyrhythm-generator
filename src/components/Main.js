@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as Tone from 'tone';
 
-import './App.scss';
+import '../App.scss';
+import Squares from './Squares'
 
-export default function Buttons() {
+export default function Main() {
 
   const [leftRhythm, setLeftRhythm] = useState(4);
   const [rightRhythm, setRightRhythm] = useState(3);
@@ -12,25 +13,6 @@ export default function Buttons() {
   const [rightHighlight, setRightHighlight] = useState(-1);
   const [leftNote, setLeftNote] = useState('F3')
   const [rightNote, setRightNote] = useState('C4')
-
-  const styles = {
-
-    rightSquare: {
-      height: '50%',
-      maxHeight: 50,
-      maxWidth: '50%',
-      // margin: 'auto',
-      // border: "1px solid black"
-    },
-
-    leftSquare: {
-      height: '50%',
-      maxWidth: '50%',
-      maxHeight: 50,
-      // margin: 'auto',
-      // border: "1px solid black"
-    },
-  }
 
 
   const setTimers = async () => {
@@ -104,30 +86,10 @@ export default function Buttons() {
     setTempo(event.target.value)
   }
 
-  const squares = (side, square) => {
-    const squares = [];
-    for (let i = 0; i < side; i++) {
-      squares.push(
-        <div>
-          <div
-            className={
-              square === 'leftSquare' ?
-                i === rightHighlight ? `${square} highlight` : `${square}`
-                : i === leftHighlight ? `${square} highlight` : `${square}`
-            }
-            key={i}
-            style={styles[square]/*[i]*/}>
-          </div>
-        </div>
-      )
-    }
-    return squares;
-  }
-
-  function Notes ({noteArray, rl}) {
+  function Notes({ noteArray, rl }) {
     return (
       <>
-        <label for="notes">Note: </label>
+        <label htmlFor="notes">Note: </label>
         <select
           id="notes"
           // defaultValue={rl === 'right' ? leftNote : rightNote}
@@ -158,7 +120,7 @@ export default function Buttons() {
     <div>
       <section>
 
-        <label for="tempo">Tempo: {tempo} bpm</label>
+        <label htmlFor="tempo">Tempo: {tempo} bpm</label>
         <input type="range" name="tempo" min="40" max="300" step="1" defaultValue={tempo} onChange={handleTempo} />
         <button id='button' onClick={setTimers}>Start</button>
         <button id='button' onClick={stop}>Stop</button>
@@ -169,7 +131,7 @@ export default function Buttons() {
         <div className="blinkBox">
 
           <div className="sideHeader">
-            <label for="leftSub">Subdivision:</label>
+            <label htmlFor="leftSub">Subdivision:</label>
             <input id="leftSub" type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
             {Notes({
               noteArray: ['A4', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4'],
@@ -180,21 +142,26 @@ export default function Buttons() {
             rl={'left'}
             /> */}
           </div>
+          
           <div className="sideBody">
-
-            {squares(leftRhythm, 'leftSquare')}
+            <Squares
+              rhythm={leftRhythm}
+              side='left'
+              rightHighlight={rightHighlight}
+              leftHighlight={leftHighlight}
+            />
           </div>
         </div>
 
         <div className="blinkBox">
 
           <div className="sideHeader">
-            <label for="rightSub">Subdivision:</label>
+            <label htmlFor="rightSub">Subdivision:</label>
             <input id="rightSub" type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
             {Notes({
               noteArray: ['A3', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3'],
-              rl:'right'
-              })}
+              rl: 'right'
+            })}
             {/* <Notes
             noteArray={['A3', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3']}
             rl={'right'}
@@ -202,7 +169,12 @@ export default function Buttons() {
           </div>
 
           <div className="sideBody">
-            {squares(rightRhythm, 'rightSquare')}
+            <Squares
+              rhythm={rightRhythm}
+              side='right'
+              rightHighlight={rightHighlight}
+              leftHighlight={leftHighlight}
+            />
           </div>
 
         </div>
