@@ -117,9 +117,8 @@ export default function Main() {
   }
 
   return (
-    <div>
+    <main>
       <section>
-
         <label htmlFor="tempo">Tempo: {tempo} bpm</label>
         <input type="range" name="tempo" min="40" max="300" step="1" defaultValue={tempo} onChange={handleTempo} />
         <button id='button' onClick={setTimers}>Start</button>
@@ -181,6 +180,6 @@ export default function Main() {
 
       </div>
 
-    </div>
+    </main>
   );
 }
