@@ -80,9 +80,6 @@ table {
     padding-left: 5px;
   }
 }
-.sideBody{
-  // background-color: black;
-}
 
 .rightSquare {
   background-color: pink;
@@ -91,10 +88,10 @@ table {
   background-color: magenta;
 }
 .leftSquare {
-  background-color: mediumseagreen;
+  background-color: mediumspringgreen;
 }
 .leftSquare.highlight {
-  background-color: mediumspringgreen;
+  background-color: mediumaquamarine;
 }
 .container {
   display: flex;

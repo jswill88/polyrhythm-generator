@@ -79,24 +79,27 @@ export default function Buttons() {
   }, [rightRhythm, leftRhythm, tempo, leftNote, rightNote])
 
   const stop = () => {
+    unhighlight();
     Tone.Transport.stop();
-    setLeftHighlight(-1)
-    setRightHighlight(-1)
+  }
+  const unhighlight = () => {
+    setLeftHighlight(-2)
+    setRightHighlight(-2)
   }
 
   const handleLeft = event => {
     if (event.target.value) {
       setLeftRhythm(event.target.value)
-      setLeftHighlight(0)
-      setRightHighlight(0)
+      // setLeftHighlight(0)
+      // setRightHighlight(0)
     }
   };
 
   const handleRight = event => {
     if (event.target.value) {
       setRightRhythm(event.target.value)
-      setLeftHighlight(0)
-      setRightHighlight(0)
+      // setLeftHighlight(0)
+      // setRightHighlight(0)
     }
   };
 
