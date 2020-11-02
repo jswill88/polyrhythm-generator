@@ -6,7 +6,6 @@ import PlayCircleOutlineTwoToneIcon from '@material-ui/icons/PlayCircleOutlineTw
 import StopIcon from '@material-ui/icons/Stop';
 
 import '../styles/App.scss';
-import '../styles/slider.scss';
 import Squares from './Squares';
 import Notes from './Notes';
 

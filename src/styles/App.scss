@@ -41,10 +41,10 @@ header {
   height: 10vh;
   @include display(flex, center, center);
   background-color: rgba(128, 128, 128, 0.249);
-}
-h1 {
-  font-family: 'Audiowide', cursive;
-  font-size: 3em;
+  h1 {
+    font-family: 'Audiowide', cursive;
+    font-size: 3em;
+  }
 }
 
 .globalControls { 
@@ -56,6 +56,12 @@ h1 {
     @include display(flex, space-evenly, center);
     width: 50%;
     height: 100%;
+  }
+}
+
+.MuiSlider{
+  &-root {
+    width: 50%;
   }
 }
 
@@ -99,7 +105,7 @@ button {
   width: 50%;
   flex-direction: column;
   height: 75vh;
-  border: 2px solid black;
+  // border: 2px solid black;
   &:first-of-type {
     .sideBody div {
       justify-content: flex-end;
@@ -132,6 +138,15 @@ button {
 .right.square.highlight {
   @include highlight(fadeRight)
 }
+
+.left.square {
+  background-color: mediumaquamarine;
+}
+
+.left.square.highlight {
+  @include highlight(fadeLeft)
+}
+
 @keyframes fadeRight {
   from {
     background-color: magenta;
@@ -139,13 +154,6 @@ button {
   to {
     background-color: pink;
   }
-}
-
-.left.square {
-  background-color: mediumaquamarine;
-}
-.left.square.highlight {
-  @include highlight(fadeLeft)
 }
 
 @keyframes fadeLeft {
@@ -156,11 +164,13 @@ button {
     background-color: mediumaquamarine;
   }
 }
+
 .container {
   display: flex;
 }
+
 .sideHeader {
+  @include display(flex, space-evenly, center);
   width: 100%;
   height: 10vh;
-  @include display(flex, space-evenly, center)
 }
