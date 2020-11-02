@@ -33,15 +33,15 @@ export default function Main() {
 
     const leftPanner = new Tone.Panner(.85).toDestination();
     const rightPanner = new Tone.Panner(-.85).toDestination();
-    const synth = new Tone.PolySynth(Tone.FMSynth).connect(leftPanner)
-    const synth2 = new Tone.PolySynth(Tone.FMSynth).connect(rightPanner)
-    synth.volume.value = -5;
-    synth2.volume.value = -5;
+    const synth = new Tone.PolySynth(Tone.Synth).connect(leftPanner)
+    const synth2 = new Tone.PolySynth(Tone.Synth).connect(rightPanner)
+    synth.volume.value = -17;
+    synth2.volume.value = -10;
 
 
     let lLoop = new Tone.Loop(time => {
       console.log(time)
-      synth.triggerAttackRelease(leftNote, '64n', time);
+      synth.triggerAttackRelease(leftNote, '32n', time);
       Tone.Draw.schedule(() => {
         setLeftHighlight(prev => (prev + 1) % rightRhythm)
       }, time)
@@ -50,7 +50,7 @@ export default function Main() {
 
     let rLoop = new Tone.Loop(time => {
       console.log(time)
-      synth2.triggerAttackRelease(rightNote, '64n', time);
+      synth2.triggerAttackRelease(rightNote, '32n', time);
       Tone.Draw.schedule(() => {
 
         setRightHighlight(prev => (prev + 1) % leftRhythm)
