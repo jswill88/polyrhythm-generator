@@ -1,4 +1,8 @@
 
-export default function Header () {
-  return <h1>Polyrhythm Nation</h1>
+export default function Header() {
+  return (
+    <header>
+      <h1>Polyrhythm Generator</h1>
+    </header>
+  )
 }
