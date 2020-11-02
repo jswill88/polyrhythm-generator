@@ -1,4 +1,4 @@
-
+// Reset
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -41,68 +41,4 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
-}
-
-
-
-
-#wrapper {
-  width: 100%;
-  border: 1px solid black;
-  display: flex;
-}
-#button {
-  height: 20px;
-  width: 100px;
-}
-.blinkBox {
-  display: flex;
-  width: 50%;
-  flex-direction: column;
-  height: 75vh;
-  border: 2px solid black;
-  &:first-of-type {
-    .sideBody div {
-      justify-content: flex-end;
-      padding-right: 5px;
-    }
-  }
-}
-
-.sideBody{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  div {
-    justify-self: stretch;
-    flex-grow: 5;
-    display: flex;
-    padding-left: 5px;
-  }
-}
-.sideBody{
-  // background-color: black;
-}
-
-.rightSquare {
-  background-color: pink;
-}
-.rightSquare.highlight {
-  background-color: magenta;
-}
-.leftSquare {
-  background-color: mediumseagreen;
-}
-.leftSquare.highlight {
-  background-color: mediumspringgreen;
-}
-.container {
-  display: flex;
-}
-.sideHeader {
-  display: flex;
-  width: 100%;
-  justify-content: space-evenly;
-  height: 10vh;
-  align-items: center;
 }

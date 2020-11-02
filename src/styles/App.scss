@@ -1,0 +1,119 @@
+@import 'reset';
+
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Montserrat&display=swap');
+
+@mixin display($display, $justify, $align) {
+  display: $display;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+$bodyFont:'Montserrat', sans-serif;
+
+* {
+  font-family: $bodyFont;
+}
+
+header {
+  height: 10vh;
+  @include display(flex, center, center);
+  background-color: rgba(128, 128, 128, 0.249);
+}
+h1 {
+  font-family: 'Audiowide', cursive;
+  font-size: 3em;
+}
+
+.globalControls { 
+  background-color: rgba(0, 0, 255, 0.173);
+  height: 7vh;
+  @include display(flex, space-between, center);
+
+  & div{
+    @include display(flex, space-evenly, center);
+    width: 50%;
+    height: 100%;
+  }
+}
+
+button {
+  @include display(flex, space-evenly, center);
+  height:75%;
+  width: 100px;
+
+  background-color: rgba(107, 196, 107, 0.502);
+  box-shadow: 1px 1px 1px grey ;
+  border: 2px solid white;
+  color: black;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    border: none;
+    box-shadow: none;
+  }
+  &.stop {
+    background-color: rgba(211, 31, 11, 0.399);
+  }
+
+}
+
+
+.MuiSvgIcon-root {
+  color: white;
+  height: 100%;
+  width: 45%;
+  display: inherit;
+}
+.blinkBox {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  height: 75vh;
+  // border: 2px solid black;
+  &:first-of-type {
+    .sideBody div {
+      justify-content: flex-end;
+      padding-right: 5px;
+    }
+  }
+}
+
+.sideBody{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  div {
+    justify-self: stretch;
+    flex-grow: 5;
+    display: flex;
+    padding-left: 5px;
+  }
+}
+.square {
+  height: 50%;
+  max-height: 50px;
+  max-width: 50%;
+}
+.right.square {
+  background-color: pink;
+}
+.right.square.highlight {
+  background-color: magenta;
+}
+.left.square {
+  background-color: mediumspringgreen;
+}
+.left.square.highlight {
+  background-color: mediumaquamarine;
+}
+.container {
+  display: flex;
+}
+.sideHeader {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  height: 10vh;
+  align-items: center;
+}
