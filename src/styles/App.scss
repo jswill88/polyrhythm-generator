@@ -70,7 +70,7 @@ button {
   width: 50%;
   flex-direction: column;
   height: 75vh;
-  // border: 2px solid black;
+  border: 2px solid black;
   &:first-of-type {
     .sideBody div {
       justify-content: flex-end;
@@ -98,14 +98,39 @@ button {
 .right.square {
   background-color: pink;
 }
-.right.square.highlight {
-  background-color: magenta;
+
+@mixin highlight($animationName) {
+  animation-name: $animationName;
+  animation-duration: 700ms;
+  animation-iteration-count: 1;
+  animation-direction: normal;
 }
+.right.square.highlight {
+  @include highlight(fadeRight)
+}
+@keyframes fadeRight {
+  from {
+    background-color: magenta;
+  }
+  to {
+    background-color: pink;
+  }
+}
+
 .left.square {
-  background-color: mediumspringgreen;
+  background-color: mediumaquamarine;
 }
 .left.square.highlight {
-  background-color: mediumaquamarine;
+  @include highlight(fadeLeft)
+}
+
+@keyframes fadeLeft {
+  from {
+    background-color: mediumspringgreen;
+  }
+  to {
+    background-color: mediumaquamarine;
+  }
 }
 .container {
   display: flex;
