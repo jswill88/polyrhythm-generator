@@ -7,6 +7,29 @@
   justify-content: $justify;
   align-items: $align;
 }
+@mixin highlight($animationName) {
+  animation-name: $animationName;
+  animation-duration: 700ms;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+}
+@mixin transition($transitionProperty, $transitionDuration, $transitionTimingFunction) {
+
+  transition-property: $transitionProperty;
+  -webkit-transition-property: $transitionProperty;
+  -moz-transition-property: $transitionProperty;
+  -o-transition-property: $transitionProperty;
+
+  transition-duration: $transitionDuration;
+  -webkit-transition-duration: $transitionDuration;
+  -moz-transition-duration: $transitionDuration;
+  -o-transition-duration: $transitionDuration;
+
+  transition-timing-function: $transitionTimingFunction;
+  -webkit-transition-timing-function: $transitionTimingFunction;
+  -moz-transition-timing-function: $transitionTimingFunction;
+  -o-transition-timing-function: $transitionTimingFunction;
+}
 
 $bodyFont:'Montserrat', sans-serif;
 
@@ -40,20 +63,26 @@ button {
   @include display(flex, space-evenly, center);
   height:75%;
   width: 100px;
-
-  background-color: rgba(107, 196, 107, 0.502);
-  box-shadow: 1px 1px 1px grey ;
+  cursor: pointer;
+  background-color: rgba(26, 135, 26, 0.5);
   border: 2px solid white;
   color: black;
+  opacity: 1;
+
+  @include transition(opacity, 300ms, ease-in);
+
+  &:hover {
+    @include transition(opacity, 300ms, ease-in);
+    opacity: .7;
+  }
   &:focus {
     outline: none;
   }
   &:active {
     border: none;
-    box-shadow: none;
   }
   &.stop {
-    background-color: rgba(211, 31, 11, 0.399);
+    background-color: rgba(211, 31, 11, 0.5);
   }
 
 }
@@ -99,12 +128,7 @@ button {
   background-color: pink;
 }
 
-@mixin highlight($animationName) {
-  animation-name: $animationName;
-  animation-duration: 700ms;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-}
+
 .right.square.highlight {
   @include highlight(fadeRight)
 }
@@ -136,9 +160,7 @@ button {
   display: flex;
 }
 .sideHeader {
-  display: flex;
   width: 100%;
-  justify-content: space-evenly;
   height: 10vh;
-  align-items: center;
+  @include display(flex, space-evenly, center)
 }
