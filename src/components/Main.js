@@ -6,8 +6,8 @@ import PlayCircleOutlineTwoToneIcon from '@material-ui/icons/PlayCircleOutlineTw
 import StopIcon from '@material-ui/icons/Stop';
 
 import '../styles/App.scss';
-import '../styles/slider.scss'
-import Squares from './Squares'
+import Squares from './Squares';
+import Notes from './Notes';
 
 export default function Main() {
 
@@ -33,15 +33,15 @@ export default function Main() {
 
     const leftPanner = new Tone.Panner(.85).toDestination();
     const rightPanner = new Tone.Panner(-.85).toDestination();
-    const synth = new Tone.PolySynth(Tone.FMSynth).connect(leftPanner)
-    const synth2 = new Tone.PolySynth(Tone.FMSynth).connect(rightPanner)
-    synth.volume.value = -5;
-    synth2.volume.value = -5;
+    const synth = new Tone.PolySynth(Tone.Synth).connect(leftPanner)
+    const synth2 = new Tone.PolySynth(Tone.Synth).connect(rightPanner)
+    synth.volume.value = -17;
+    synth2.volume.value = -10;
 
 
     let lLoop = new Tone.Loop(time => {
       console.log(time)
-      synth.triggerAttackRelease(leftNote, '64n', time);
+      synth.triggerAttackRelease(leftNote, '32n', time);
       Tone.Draw.schedule(() => {
         setLeftHighlight(prev => (prev + 1) % rightRhythm)
       }, time)
@@ -50,7 +50,7 @@ export default function Main() {
 
     let rLoop = new Tone.Loop(time => {
       console.log(time)
-      synth2.triggerAttackRelease(rightNote, '64n', time);
+      synth2.triggerAttackRelease(rightNote, '32n', time);
       Tone.Draw.schedule(() => {
 
         setRightHighlight(prev => (prev + 1) % leftRhythm)
@@ -94,30 +94,6 @@ export default function Main() {
     setTempo(value)
   }
 
-  function Notes({ noteArray, rl }) {
-    return (
-      <>
-        <label htmlFor="notes">Note: </label>
-        <select
-          id="notes"
-          defaultValue={rl === 'right' ? leftNote : rightNote}
-          onChange={
-            e => rl === 'right'
-              ? setLeftNote(e.target.value)
-              : setRightNote(e.target.value)
-          }>
-          {noteArray.map((note, i) =>
-            <option
-              value={note}
-              key={i}>
-              {note.slice(0, note.length - 1)}
-            </option>
-          )}
-        </select>
-      </>
-    )
-  }
-
   return (
     <main>
       <section className="globalControls">
@@ -152,7 +128,11 @@ export default function Main() {
             <input id="leftSub" type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
             {Notes({
               noteArray: ['Bb2', 'B2', 'C3', 'Db3', 'D3', 'Eb3', 'E3', 'F3', 'Gb3', 'G3', 'Ab3', 'A3'],
-              rl: 'left'
+              rl: 'left',
+              leftNote,
+              rightNote,
+              setLeftNote,
+              setRightNote,
             })}
           </div>
 
@@ -173,7 +153,11 @@ export default function Main() {
             <input id="rightSub" type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
             {Notes({
               noteArray: ['Bb3', 'B3', 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4'],
-              rl: 'right'
+              rl: 'right',
+              leftNote,
+              rightNote,
+              setLeftNote,
+              setRightNote,
             })}
           </div>
 
