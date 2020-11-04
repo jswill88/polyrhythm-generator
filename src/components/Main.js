@@ -38,7 +38,6 @@ export default function Main() {
     synth.volume.value = -17;
     synth2.volume.value = -10;
 
-
     let lLoop = new Tone.Loop(time => {
       console.log(time)
       synth.triggerAttackRelease(leftNote, '32n', time);
@@ -58,11 +57,13 @@ export default function Main() {
 
     }, `0:${rightRhythm}`).start(.05)
 
+
     Tone.Transport.bpm.value = rightRhythm * tempo;
 
     return () => {
       lLoop.cancel()
       rLoop.cancel();
+  
     }
 
   }, [rightRhythm, leftRhythm, tempo, leftNote, rightNote])
@@ -124,7 +125,7 @@ export default function Main() {
         <div className="blinkBox">
 
           <div className="sideHeader">
-            <label htmlFor="leftSub">Subdivision:</label>
+            <label htmlFor="leftSub">Left Subdivision:</label>
             <input id="leftSub" type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
             {Notes({
               noteArray: ['Bb2', 'B2', 'C3', 'Db3', 'D3', 'Eb3', 'E3', 'F3', 'Gb3', 'G3', 'Ab3', 'A3'],
@@ -144,12 +145,22 @@ export default function Main() {
               leftHighlight={leftHighlight}
             />
           </div>
+          
         </div>
 
         <div className="blinkBox">
 
+        <div className="sideBody">
+            <Squares
+              rhythm={rightRhythm}
+              side='right'
+              rightHighlight={rightHighlight}
+              leftHighlight={leftHighlight}
+            />
+          </div>
+
           <div className="sideHeader">
-            <label htmlFor="rightSub">Subdivision:</label>
+            <label htmlFor="rightSub">Right Subdivision:</label>
             <input id="rightSub" type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
             {Notes({
               noteArray: ['Bb3', 'B3', 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4'],
@@ -160,15 +171,8 @@ export default function Main() {
               setRightNote,
             })}
           </div>
+          
 
-          <div className="sideBody">
-            <Squares
-              rhythm={rightRhythm}
-              side='right'
-              rightHighlight={rightHighlight}
-              leftHighlight={leftHighlight}
-            />
-          </div>
 
         </div>
 

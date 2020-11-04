@@ -1,0 +1,17 @@
+@import 'App';
+
+footer {
+  @include display(flex, flex-end, center);
+  div {
+    margin-right: 5%;
+    text-align: right;
+  }
+  p {
+    font-family: $bodyFont;
+    font-size: .7em;
+  }
+}
+
+
+
+
