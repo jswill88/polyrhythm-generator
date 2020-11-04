@@ -35,15 +35,17 @@ $bodyFont:'Montserrat', sans-serif;
 
 * {
   font-family: $bodyFont;
+  font-size: .9em;
 }
 
 header {
-  height: 10vh;
-  @include display(flex, center, center);
+  height: 7vh;
+  @include display(flex, flex-start, center);
   background-color: rgba(128, 128, 128, 0.249);
   h1 {
     font-family: 'Audiowide', cursive;
-    font-size: 3em;
+    font-size: 1.5em;
+    margin-left: 8%;
   }
 }
 
@@ -103,8 +105,9 @@ button {
 .blinkBox {
   display: flex;
   width: 50%;
-  flex-direction: column;
+  flex-direction: row;
   height: 75vh;
+  background-color: #fce4d809;
   // border: 2px solid black;
   &:first-of-type {
     .sideBody div {
@@ -116,22 +119,26 @@ button {
 
 .sideBody{
   height: 100%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   div {
+    margin-top: 10px;
     justify-self: stretch;
     flex-grow: 5;
     display: flex;
     padding-left: 5px;
   }
 }
+
 .square {
   height: 50%;
   max-height: 50px;
-  max-width: 50%;
+  max-width: 100%;
 }
 .right.square {
-  background-color: pink;
+  background-color: #37f7fa;
+  opacity: .6;
 }
 
 
@@ -140,7 +147,8 @@ button {
 }
 
 .left.square {
-  background-color: mediumaquamarine;
+  background-color: #10FFCB;
+  opacity: .6;
 }
 
 .left.square.highlight {
@@ -149,19 +157,22 @@ button {
 
 @keyframes fadeRight {
   from {
-    background-color: magenta;
+    background-color: #182bfc;
+    opacity: .8;
   }
   to {
-    background-color: pink;
+    // background-color: pink;
+    opacity: .4;
   }
 }
 
 @keyframes fadeLeft {
   from {
-    background-color: mediumspringgreen;
+    background-color: #26b110;
+    opacity: .8;
   }
   to {
-    background-color: mediumaquamarine;
+    opacity: .4;
   }
 }
 
@@ -171,6 +182,11 @@ button {
 
 .sideHeader {
   @include display(flex, space-evenly, center);
-  width: 100%;
-  height: 10vh;
+  width: 50%;
+  height: 30%;
+  flex-direction: column;
+  input {
+    width: 15%;
+    text-align: left;
+  }
 }
