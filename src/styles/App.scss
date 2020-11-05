@@ -1,4 +1,4 @@
-@import 'reset';
+// @import './reset.scss';
 
 @import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Montserrat&display=swap');
 
@@ -32,21 +32,12 @@
 }
 
 $bodyFont:'Montserrat', sans-serif;
+$blue: rgb(68, 68, 230);
+$headerColor: rgba(128, 128, 128, 0.249);
 
 * {
   font-family: $bodyFont;
   font-size: .9em;
-}
-
-header {
-  height: 7vh;
-  @include display(flex, flex-start, center);
-  background-color: rgba(128, 128, 128, 0.249);
-  h1 {
-    font-family: 'Audiowide', cursive;
-    font-size: 1.5em;
-    margin-left: 8%;
-  }
 }
 
 .globalControls { 
@@ -96,19 +87,19 @@ button {
 }
 
 
-.MuiSvgIcon-root {
+button .MuiSvgIcon-root {
   color: white;
   height: 100%;
   width: 45%;
   display: inherit;
 }
+
 .blinkBox {
   display: flex;
   width: 50%;
   flex-direction: row;
   height: 75vh;
   background-color: #fce4d809;
-  // border: 2px solid black;
   &:first-of-type {
     .sideBody div {
       justify-content: flex-end;
@@ -118,16 +109,15 @@ button {
 }
 
 .sideBody{
-  height: 100%;
+  height: 99%;
   width: 50%;
   display: flex;
   flex-direction: column;
+  padding: 1vh;
   div {
-    margin-top: 10px;
     justify-self: stretch;
     flex-grow: 5;
     display: flex;
-    padding-left: 5px;
   }
 }
 
@@ -135,10 +125,11 @@ button {
   height: 50%;
   max-height: 50px;
   max-width: 100%;
+  border: 1px solid gray;
 }
 .right.square {
   background-color: #37f7fa;
-  opacity: .6;
+  opacity: .4;
 }
 
 
@@ -148,7 +139,7 @@ button {
 
 .left.square {
   background-color: #10FFCB;
-  opacity: .6;
+  opacity: .4;
 }
 
 .left.square.highlight {
@@ -161,7 +152,6 @@ button {
     opacity: .8;
   }
   to {
-    // background-color: pink;
     opacity: .4;
   }
 }

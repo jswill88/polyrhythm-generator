@@ -39,7 +39,7 @@ export default function Main() {
     synth2.volume.value = -10;
 
     let lLoop = new Tone.Loop(time => {
-      console.log(time)
+
       synth.triggerAttackRelease(leftNote, '32n', time);
       Tone.Draw.schedule(() => {
         setLeftHighlight(prev => (prev + 1) % rightRhythm)
@@ -48,7 +48,7 @@ export default function Main() {
     }, `0:${leftRhythm}`).start(.05)
 
     let rLoop = new Tone.Loop(time => {
-      console.log(time)
+      
       synth2.triggerAttackRelease(rightNote, '32n', time);
       Tone.Draw.schedule(() => {
 

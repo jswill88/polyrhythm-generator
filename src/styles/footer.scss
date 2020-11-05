@@ -1,6 +1,10 @@
 @import 'App';
 
+
+
 footer {
+  background-color: $headerColor;
+  height: 10vh;
   @include display(flex, flex-end, center);
   div {
     margin-right: 5%;
@@ -9,6 +13,26 @@ footer {
   p {
     font-family: $bodyFont;
     font-size: .7em;
+    line-height: 1.5;
+  }
+  a {
+    color: black;
+    text-decoration: none;
+    @include transition(color, 300ms, ease-in-out);
+    &:hover {
+      color: $blue;
+    }
+  }
+  .MuiSvgIcon-root {
+    font-size: 1.8em;
+    color: black;
+    @include transition(color, 300ms, ease-in-out);
+    &:active {
+      color: inherit;
+    }
+    &:hover {
+      color:$blue;
+    }
   }
 }
 
