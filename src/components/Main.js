@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as Tone from 'tone';
 import { Slider } from '@material-ui/core';
 import { StylesProvider } from "@material-ui/core/styles";
-import PlayCircleOutlineTwoToneIcon from '@material-ui/icons/PlayCircleOutlineTwoTone';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 
 import '../styles/App.scss';
@@ -18,13 +18,15 @@ export default function Main() {
   const [rightHighlight, setRightHighlight] = useState(-1);
   const [leftNote, setLeftNote] = useState('C4')
   const [rightNote, setRightNote] = useState('F3')
+  const [leftError, setLeftError] = useState(false);
+  const [rightError, setRightError] = useState(false);
+  const [volume, setVolume] = useState(-30)
 
 
   const setTimers = async () => {
     setLeftHighlight(-1);
     setRightHighlight(-1);
     await Tone.start();
-    Tone.Transport.bpm.value = rightRhythm * tempo;
     Tone.Transport.start('+0.1');
   }
 
@@ -35,11 +37,9 @@ export default function Main() {
     const rightPanner = new Tone.Panner(-.85).toDestination();
     const synth = new Tone.PolySynth(Tone.Synth).connect(leftPanner)
     const synth2 = new Tone.PolySynth(Tone.Synth).connect(rightPanner)
-    synth.volume.value = -17;
-    synth2.volume.value = -10;
 
     let lLoop = new Tone.Loop(time => {
-      console.log(time)
+
       synth.triggerAttackRelease(leftNote, '32n', time);
       Tone.Draw.schedule(() => {
         setLeftHighlight(prev => (prev + 1) % rightRhythm)
@@ -48,7 +48,7 @@ export default function Main() {
     }, `0:${leftRhythm}`).start(.05)
 
     let rLoop = new Tone.Loop(time => {
-      console.log(time)
+
       synth2.triggerAttackRelease(rightNote, '32n', time);
       Tone.Draw.schedule(() => {
 
@@ -63,10 +63,18 @@ export default function Main() {
     return () => {
       lLoop.cancel()
       rLoop.cancel();
-  
+
     }
 
-  }, [rightRhythm, leftRhythm, tempo, leftNote, rightNote])
+  }, [rightRhythm, leftRhythm, leftNote, rightNote, tempo])
+
+  useEffect(() => {
+    if (volume < -50) {
+      Tone.Destination.volume.value = -1000;
+    } else {
+      Tone.Destination.volume.value = volume;
+    }
+  }, [volume])
 
   const stop = () => {
     unhighlight();
@@ -78,56 +86,94 @@ export default function Main() {
   }
 
   const handleLeft = event => {
-    if (event.target.value) {
+    if (event.target.value > 1) {
+      setLeftError(false);
       setLeftRhythm(event.target.value)
+    } else {
+      setLeftError(true);
     }
   };
 
   const handleRight = event => {
-    if (event.target.value) {
+    if (event.target.value > 1 &&
+      event.target.value <= Math.floor(parseInt(leftRhythm) * 6)) {
+      setRightError(false);
       setRightRhythm(event.target.value)
+    } else {
+      setRightError(true);
     }
   };
 
   const handleTempo = (e, value) => {
-    console.log(value)
     Tone.Transport.bpm.value = value * rightRhythm;
     setTempo(value)
+  }
+
+  const handleVolume = (e, value) => {
+    setVolume(value)
   }
 
   return (
     <main>
       <section className="globalControls">
-          <StylesProvider injectFirst>
-        <div>
-          <label htmlFor="tempo">Tempo: {tempo} bpm</label>
+        <StylesProvider injectFirst>
+          <div>
+            <label htmlFor="tempo">BPM</label>
             <Slider
               name="tempo"
               min={40}
-              max={300}
+              max={150}
               step={1}
               value={tempo}
               onChange={handleTempo}
+              valueLabelDisplay={'on'}
+              valueLabelFormat={x => <span>{x}</span>}
             />
-        </div>
-        <div>
-          {leftHighlight > -1
-            ? <button id='button' className="stop" onClick={stop}><StopIcon /></button>
-            : <button id='button' onClick={setTimers}><PlayCircleOutlineTwoToneIcon/></button>
-          }
+          </div>
+          <div>
+            <label htmlFor="volume">Volume</label>
+            <Slider
+              name="volume"
+              min={-55}
+              max={-15}
+              step={5}
+              value={volume}
+              onChange={handleVolume}
+              valueLabelDisplay={'on'}
+              valueLabelFormat={x => <span>{(x + 55) / 5}</span>}
+            />
+          </div>
+          <div>
+            {rightHighlight > -1
+              ? <button id='button' className="stop" onClick={stop}>
+                <StopIcon /></button>
+              : <button id='button' onClick={setTimers}>
+                <PlayArrowIcon /></button>
+            }
 
-        </div>
-          </StylesProvider>
+          </div>
+        </StylesProvider>
       </section>
 
       <div className="container">
 
         <div className="blinkBox">
-
+          <div className="subtitle">
+            <h2>Base Rhythm</h2>
+          </div>
           <div className="sideHeader">
-            <label htmlFor="leftSub">Left Subdivision:</label>
-            <input id="leftSub" type="number" min="1" defaultValue={leftRhythm} onChange={handleLeft} />
-            {Notes({
+            <label htmlFor="leftSub">Beats:</label>
+            <input
+              className={leftError ? 'error' : null}
+              id="leftSub"
+              type="number"
+              min="2"
+              defaultValue={leftRhythm}
+              onChange={handleLeft}
+            />
+            {leftError
+            ? <p>Input must be 2 or greater</p>
+            : Notes({
               noteArray: ['Bb2', 'B2', 'C3', 'Db3', 'D3', 'Eb3', 'E3', 'F3', 'Gb3', 'G3', 'Ab3', 'A3'],
               rl: 'left',
               leftNote,
@@ -145,12 +191,40 @@ export default function Main() {
               leftHighlight={leftHighlight}
             />
           </div>
-          
+
         </div>
 
         <div className="blinkBox">
+          <div className="subtitle">
+            <h2>Counter Rhythm</h2>
+          </div>
+          <div className="sideHeader">
+            <label htmlFor="rightSub">Beats:</label>
 
-        <div className="sideBody">
+            <input
+              className={rightError ? 'error' : null}
+              id="rightSub"
+              type="number"
+              min="2"
+              max={Math.floor(parseInt(leftRhythm) * 6)}
+              defaultValue={rightRhythm}
+              onChange={handleRight} />
+            {rightError
+              ? <p>
+                Input must be between 2 and {Math.floor(parseInt(leftRhythm) * 6)}
+                </p>
+              : Notes({
+              noteArray: ['Bb3', 'B3', 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4'],
+              rl: 'right',
+              leftNote,
+              rightNote,
+              setLeftNote,
+              setRightNote,
+            })
+          }
+          </div>
+
+          <div className="sideBody">
             <Squares
               rhythm={rightRhythm}
               side='right'
@@ -159,19 +233,7 @@ export default function Main() {
             />
           </div>
 
-          <div className="sideHeader">
-            <label htmlFor="rightSub">Right Subdivision:</label>
-            <input id="rightSub" type="number" min="1" defaultValue={rightRhythm} onChange={handleRight} />
-            {Notes({
-              noteArray: ['Bb3', 'B3', 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4'],
-              rl: 'right',
-              leftNote,
-              rightNote,
-              setLeftNote,
-              setRightNote,
-            })}
-          </div>
-          
+
 
 
         </div>

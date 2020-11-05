@@ -1,0 +1,51 @@
+@import 'App';
+
+
+header {
+  @include display(flex, space-between, center);
+
+  flex-direction: row;
+  height: 8vh;
+  background-color: $headerColor;
+  div {
+    @include display(flex, flex-start, center);
+    width: 50%;
+  }
+  h1 {
+    font-family: 'Audiowide', cursive;
+    font-size: 1.5em;
+    margin-left: 1%;
+  }
+  img {
+    margin-left: 3%;
+    height: 5vh;
+    animation-name: flip;
+    animation-duration: 10000ms;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-timing-function: linear;
+  }
+  a {
+    justify-self: self-end;
+    margin-right: 3%;
+  }
+  .MuiSvgIcon-root {
+    color: black;
+    @include transition(color, 300ms, ease-in-out);
+    &:hover {
+      color: $blue;
+    }
+  }
+}
+
+@keyframes flip {
+  from {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  to {
+    transform: rotateY(359deg);
+  }
+}
