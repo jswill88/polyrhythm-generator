@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
+import Header from './components/Header'
+
+test('renders the header correctly', () => {
+  const { container } = render(<Header />);
+  const linkElement = screen.getByText(/polyrhythm generator/i);
   expect(linkElement).toBeInTheDocument();
+  expect(container).toMatchSnapshot();
 });

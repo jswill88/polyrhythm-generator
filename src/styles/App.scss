@@ -55,7 +55,7 @@ $headerColor: rgba(128, 128, 128, 0.249);
     
   }
   .outline {
-    border: 2px solid black;
+    border: 1px solid black;
     animation: 2000ms ease-out 1 fill;
     &:hover div {
       display: block;
@@ -223,23 +223,27 @@ button .MuiSvgIcon-root {
 }
 .right.square {
   
-  background-color: #030a59;
+  // background-color: #030a59;
+  background-color: #E6E644;
   opacity: .8;
 }
 
 
 .right.square.highlight {
   @include highlight(fadeRight)
+  
 }
 
 .left.square {
   
-  background-color: #26b110;
+  // background-color: #26b110;
+  background-color: #44E695;
   opacity: .8;
 }
 
 .left.square.highlight {
   @include highlight(fadeLeft)
+  // @include highlight(fadeRight)
 }
 
 @keyframes fadeRight {
@@ -249,14 +253,17 @@ button .MuiSvgIcon-root {
   }
   to {
     // background-color: #26f5f9;
-    background-color: #030a59;
+    // background-color: #44E695;
+    background-color: #E6E644;
+    // background-color: #030a59;
     // opacity: .4;
   }
 }
 
 @keyframes fadeLeft {
   from {
-    background-color: #10ff2c;
+    background-color: #26f5f9;
+    // background-color: #10ff2c;
     opacity: 1;
   }
   to {
@@ -301,7 +308,7 @@ label + .info {
     margin: 0 2px;
 
     &.outline {
-      border: 2px solid black;
+      border: 1px solid black;
       animation: 500ms ease-out 1 fill;
       &:hover div {
         display: block;
