@@ -4,12 +4,13 @@ import { Slider } from '@material-ui/core';
 import { StylesProvider } from "@material-ui/core/styles";
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
+// import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import '../styles/App.scss';
 import Squares from './Squares';
 import Notes from './Notes';
 
-export default function Main() {
+export default function Main({ showInfo }) {
 
   const [leftRhythm, setLeftRhythm] = useState(3);
   const [rightRhythm, setRightRhythm] = useState(4);
@@ -20,8 +21,7 @@ export default function Main() {
   const [rightNote, setRightNote] = useState('F3')
   const [leftError, setLeftError] = useState(false);
   const [rightError, setRightError] = useState(false);
-  const [volume, setVolume] = useState(-30)
-
+  const [volume, setVolume] = useState(-30);
 
   const setTimers = async () => {
     setLeftHighlight(-1);
@@ -117,7 +117,10 @@ export default function Main() {
     <main>
       <section className="globalControls">
         <StylesProvider injectFirst>
-          <div>
+          <div className={showInfo ? "control outline" : "control"}>
+            {showInfo &&
+              <div className="info">Set the tempo for the base rhythm</div>
+            }
             <label htmlFor="tempo">BPM</label>
             <Slider
               name="tempo"
@@ -130,7 +133,10 @@ export default function Main() {
               valueLabelFormat={x => <span>{x}</span>}
             />
           </div>
-          <div>
+          <div className={showInfo ? "control outline" : "control"}>
+            {showInfo &&
+              <div className="info">Set the master volume</div>
+            }
             <label htmlFor="volume">Volume</label>
             <Slider
               name="volume"
@@ -143,44 +149,62 @@ export default function Main() {
               valueLabelFormat={x => <span>{(x + 55) / 5}</span>}
             />
           </div>
-          <div>
+          <div className={showInfo ? "control outline" : "control"}>
             {rightHighlight > -1
               ? <button id='button' className="stop" onClick={stop}>
                 <StopIcon /></button>
               : <button id='button' onClick={setTimers}>
                 <PlayArrowIcon /></button>
             }
-
+            {showInfo &&
+              <div className="info">Start and stop the music</div>
+            }
           </div>
         </StylesProvider>
       </section>
 
       <div className="container">
 
+
+
+
         <div className="blinkBox">
+
           <div className="subtitle">
             <h2>Base Rhythm</h2>
           </div>
+
           <div className="sideHeader">
-            <label htmlFor="leftSub">Beats:</label>
-            <input
-              className={leftError ? 'error' : null}
-              id="leftSub"
-              type="number"
-              min="2"
-              defaultValue={leftRhythm}
-              onChange={handleLeft}
-            />
-            {leftError
-            ? <p>Input must be 2 or greater</p>
-            : Notes({
-              noteArray: ['Bb2', 'B2', 'C3', 'Db3', 'D3', 'Eb3', 'E3', 'F3', 'Gb3', 'G3', 'Ab3', 'A3'],
-              rl: 'left',
-              leftNote,
-              rightNote,
-              setLeftNote,
-              setRightNote,
-            })}
+
+            <div className={showInfo ? "sideControl outline" : "sideControl"}>
+              <label htmlFor="leftSub">Beats:</label>
+
+              {showInfo &&
+                <div className="info">Set the number of beats in the base rhythm</div>}
+
+              <input
+                className={leftError ? 'error' : null}
+                id="leftSub"
+                type="number"
+                min="2"
+                defaultValue={leftRhythm}
+                onChange={handleLeft}
+              />
+            </div>
+
+            <div className={showInfo ? "sideControl outline" : "sideControl"}>
+              {leftError
+                ? <p>Input must be 2 or greater</p>
+                : Notes({
+                  noteArray: ['Bb2', 'B2', 'C3', 'Db3', 'D3', 'Eb3', 'E3', 'F3', 'Gb3', 'G3', 'Ab3', 'A3'],
+                  rl: 'left',
+                  leftNote,
+                  rightNote,
+                  setLeftNote,
+                  setRightNote,
+                  showInfo
+                })}
+            </div>
           </div>
 
           <div className="sideBody">
@@ -196,34 +220,46 @@ export default function Main() {
 
         <div className="blinkBox">
           <div className="subtitle">
+
             <h2>Counter Rhythm</h2>
           </div>
+
           <div className="sideHeader">
-            <label htmlFor="rightSub">Beats:</label>
 
-            <input
-              className={rightError ? 'error' : null}
-              id="rightSub"
-              type="number"
-              min="2"
-              max={Math.floor(parseInt(leftRhythm) * 6)}
-              defaultValue={rightRhythm}
-              onChange={handleRight} />
-            {rightError
-              ? <p>
-                Input must be between 2 and {Math.floor(parseInt(leftRhythm) * 6)}
+            <div className={showInfo ? "sideControl outline" : "sideControl"}>
+              <label htmlFor="rightSub">Beats:</label>
+
+              {showInfo &&
+                <div className="info">Set the number of beats in the counter rhythm</div>}
+
+              <input
+                className={rightError ? 'error' : null}
+                id="rightSub"
+                type="number"
+                min="2"
+                max={Math.floor(parseInt(leftRhythm) * 6)}
+                defaultValue={rightRhythm}
+                onChange={handleRight} />
+            </div>
+
+            <div className={showInfo ? "sideControl outline" : "sideControl"}>
+              {rightError
+                ? <p>
+                  Input must be between 2 and {Math.floor(parseInt(leftRhythm) * 6)}
                 </p>
-              : Notes({
-              noteArray: ['Bb3', 'B3', 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4'],
-              rl: 'right',
-              leftNote,
-              rightNote,
-              setLeftNote,
-              setRightNote,
-            })
-          }
-          </div>
+                : Notes({
+                  noteArray: ['Bb3', 'B3', 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4'],
+                  rl: 'right',
+                  leftNote,
+                  rightNote,
+                  setLeftNote,
+                  setRightNote,
+                  showInfo
+                })
+              }
+            </div>
 
+          </div>
           <div className="sideBody">
             <Squares
               rhythm={rightRhythm}
@@ -234,9 +270,9 @@ export default function Main() {
           </div>
 
 
-
-
         </div>
+
+
 
       </div>
 

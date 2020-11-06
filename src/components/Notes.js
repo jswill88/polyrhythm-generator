@@ -1,7 +1,9 @@
-export default function Notes({ noteArray, rl, leftNote, rightNote, setLeftNote, setRightNote }) {
+export default function Notes({ noteArray, rl, leftNote, rightNote, setLeftNote, setRightNote, showInfo }) {
   return (
     <>
       <label htmlFor="notes">Note: </label>
+      {showInfo &&
+          <div className="info">Set the {rl === 'right' ? 'right' : 'left'} note</div>}
       <select
         id="notes"
         defaultValue={rl === 'right' ? leftNote : rightNote}
