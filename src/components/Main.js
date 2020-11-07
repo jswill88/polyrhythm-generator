@@ -111,6 +111,16 @@ export default function Main({ showInfo }) {
   const handleVolume = (e, value) => {
     setVolume(value)
   }
+  const Thumb = (props) => {
+    console.log(props)
+    return (
+    <span {...props}>
+      {props['aria-label'] === 'tempo'
+      ? props['aria-valuenow']
+      : (props['aria-valuenow'] + 55) / 5
+      }
+      </span>)
+  };
 
   return (
     <main>
@@ -119,33 +129,33 @@ export default function Main({ showInfo }) {
           <div
             title="Set the tempo for the base rhythm"
             className={"control"}
-            >
+          >
             <label htmlFor="tempo">BPM</label>
             <Slider
               name="tempo"
+              aria-label="tempo"
               min={40}
               max={150}
               step={1}
               value={tempo}
               onChange={handleTempo}
-              valueLabelDisplay={'on'}
-              valueLabelFormat={x => <span>{x}</span>}
+              ThumbComponent={Thumb}
             />
           </div>
           <div
             title="Set the master volume"
             className={"control"}
-            >
+          >
             <label htmlFor="volume">Volume</label>
             <Slider
               name="volume"
+              aria-label="volume"
               min={-55}
               max={-15}
               step={5}
               value={volume}
               onChange={handleVolume}
-              valueLabelDisplay={'on'}
-              valueLabelFormat={x => <span>{(x + 55) / 5}</span>}
+              ThumbComponent={Thumb}
             />
           </div>
           <div title="Start and stop the music" className={"control"}>
@@ -170,8 +180,8 @@ export default function Main({ showInfo }) {
           <div className="sideHeader">
 
             <div
-            className={"sideControl"}
-            title="Set the number of beats in the base rhythm"
+              className={"sideControl"}
+              title="Set the number of beats in the base rhythm"
             >
 
               <label htmlFor="leftSub">Beats:</label>
@@ -189,7 +199,7 @@ export default function Main({ showInfo }) {
             <div
               className={"sideControl"}
               title="Set the pitch of the left note"
-              >
+            >
               {leftError
                 ? <p>Input must be 2 or greater</p>
                 : Notes({
@@ -224,8 +234,8 @@ export default function Main({ showInfo }) {
           <div className="sideHeader">
 
             <div
-            className="sideControl"
-            title="Set the number of beats in the cross rhythm">
+              className="sideControl"
+              title="Set the number of beats in the cross rhythm">
               <label htmlFor="rightSub">Beats:</label>
 
               <input
@@ -239,7 +249,7 @@ export default function Main({ showInfo }) {
             </div>
 
             <div className={"sideControl"}
-            title="Set the pitch of the right note">
+              title="Set the pitch of the right note">
               {rightError
                 ? <p>
                   Input must be between 2 and {Math.floor(parseInt(leftRhythm) * 6)}
