@@ -62,17 +62,6 @@ $headerColor: rgba(128, 128, 128, 0.249);
     }
   }
 }
-// @keyframes fill {
-//   from {
-//     border: 2px solid transparent;
-//   }
-//   50%{
-//     border: 2px solid red;
-//   }
-//   to {
-//     border: 2px solid transparent;
-//   }
-// }
 
 
 span.PrivateValueLabel-label-5 {
@@ -101,10 +90,7 @@ span.PrivateValueLabel-offset-3 {
     top: 5px;
   }
 }
-// .infoBox {
-  // width: 0;
-  // position: relative;
-// }
+
 .info {
   z-index: 1;
   // align-self: none;
@@ -144,7 +130,7 @@ from {
 }
 
 
-button {
+#button {
   @include display(flex, space-evenly, center);
   height:75%;
   width: 100px;
@@ -170,7 +156,7 @@ button {
 }
 
 
-button .MuiSvgIcon-root {
+#button .MuiSvgIcon-root {
   color: white;
   height: 100%;
   width: 45%;
@@ -206,7 +192,6 @@ button .MuiSvgIcon-root {
   width: 60%;
   display: flex;
   flex-direction: column;
-  // padding: 1vh;
   div {
     justify-self: stretch;
     flex-grow: 5;
@@ -235,15 +220,12 @@ button .MuiSvgIcon-root {
 }
 
 .left.square {
-  
-  // background-color: #26b110;
   background-color: #44E695;
   opacity: .8;
 }
 
 .left.square.highlight {
   @include highlight(fadeLeft)
-  // @include highlight(fadeRight)
 }
 
 @keyframes fadeRight {
@@ -252,23 +234,17 @@ button .MuiSvgIcon-root {
     opacity: 1;
   }
   to {
-    // background-color: #26f5f9;
-    // background-color: #44E695;
     background-color: #E6E644;
-    // background-color: #030a59;
-    // opacity: .4;
   }
 }
 
 @keyframes fadeLeft {
   from {
     background-color: #26f5f9;
-    // background-color: #10ff2c;
     opacity: 1;
   }
   to {
-    background-color: #26b110;
-    // opacity: .4;
+    background-color: #44E695;
   }
 }
 
@@ -277,15 +253,12 @@ button .MuiSvgIcon-root {
 }
 
 label + .info {
-  // background-color: green ;
   top: 6vh;
-  
   width: 90%;
 
 }
 
 .sideHeader {
-  // align-self: flex-start;
   @include display(flex, space-evenly, center);
 
   width: 60%;

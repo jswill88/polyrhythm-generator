@@ -4,7 +4,6 @@ import { Slider } from '@material-ui/core';
 import { StylesProvider } from "@material-ui/core/styles";
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
-// import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import '../styles/App.scss';
 import Squares from './Squares';
@@ -117,10 +116,10 @@ export default function Main({ showInfo }) {
     <main>
       <section className="globalControls">
         <StylesProvider injectFirst>
-          <div className={showInfo ? "control outline" : "control"}>
-            {showInfo &&
-              <div className="info">Set the tempo for the base rhythm</div>
-            }
+          <div
+            title="Set the tempo for the base rhythm"
+            className={"control"}
+            >
             <label htmlFor="tempo">BPM</label>
             <Slider
               name="tempo"
@@ -133,10 +132,10 @@ export default function Main({ showInfo }) {
               valueLabelFormat={x => <span>{x}</span>}
             />
           </div>
-          <div className={showInfo ? "control outline" : "control"}>
-            {showInfo &&
-              <div className="info">Set the master volume</div>
-            }
+          <div
+            title="Set the master volume"
+            className={"control"}
+            >
             <label htmlFor="volume">Volume</label>
             <Slider
               name="volume"
@@ -149,24 +148,18 @@ export default function Main({ showInfo }) {
               valueLabelFormat={x => <span>{(x + 55) / 5}</span>}
             />
           </div>
-          <div className={showInfo ? "control outline" : "control"}>
+          <div title="Start and stop the music" className={"control"}>
             {rightHighlight > -1
               ? <button id='button' className="stop" onClick={stop}>
                 <StopIcon /></button>
               : <button id='button' onClick={setTimers}>
                 <PlayArrowIcon /></button>
             }
-            {showInfo &&
-              <div className="info">Start and stop the music</div>
-            }
           </div>
         </StylesProvider>
       </section>
 
       <div className="container">
-
-
-
 
         <div className="blinkBox">
 
@@ -176,11 +169,12 @@ export default function Main({ showInfo }) {
 
           <div className="sideHeader">
 
-            <div className={showInfo ? "sideControl outline" : "sideControl"}>
-              <label htmlFor="leftSub">Beats:</label>
+            <div
+            className={"sideControl"}
+            title="Set the number of beats in the base rhythm"
+            >
 
-              {showInfo &&
-                <div className="info">Set the number of beats in the base rhythm</div>}
+              <label htmlFor="leftSub">Beats:</label>
 
               <input
                 className={leftError ? 'error' : null}
@@ -192,7 +186,10 @@ export default function Main({ showInfo }) {
               />
             </div>
 
-            <div className={showInfo ? "sideControl outline" : "sideControl"}>
+            <div
+              className={"sideControl"}
+              title="Set the pitch of the left note"
+              >
               {leftError
                 ? <p>Input must be 2 or greater</p>
                 : Notes({
@@ -221,16 +218,15 @@ export default function Main({ showInfo }) {
         <div className="blinkBox">
           <div className="subtitle">
 
-            <h2>Counter Rhythm</h2>
+            <h2>Cross Rhythm</h2>
           </div>
 
           <div className="sideHeader">
 
-            <div className={showInfo ? "sideControl outline" : "sideControl"}>
+            <div
+            className="sideControl"
+            title="Set the number of beats in the cross rhythm">
               <label htmlFor="rightSub">Beats:</label>
-
-              {showInfo &&
-                <div className="info">Set the number of beats in the counter rhythm</div>}
 
               <input
                 className={rightError ? 'error' : null}
@@ -242,7 +238,8 @@ export default function Main({ showInfo }) {
                 onChange={handleRight} />
             </div>
 
-            <div className={showInfo ? "sideControl outline" : "sideControl"}>
+            <div className={"sideControl"}
+            title="Set the pitch of the right note">
               {rightError
                 ? <p>
                   Input must be between 2 and {Math.floor(parseInt(leftRhythm) * 6)}

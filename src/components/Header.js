@@ -10,10 +10,13 @@ export default function Header({ showInfo, setShowInfo }) {
         <img src={Logo} alt="Logo" />
         <h1>Polyrhythm Generator</h1>
       </div>
+      <div>
       {showInfo
-        ? <CloseIcon onClick={() => setShowInfo(false)} />
-        : <InfoOutlinedIcon onClick={() => setShowInfo(true)} />
+        ? <button><CloseIcon onClick={() => setShowInfo(false)} /></button>
+        : <button><InfoOutlinedIcon onClick={() => setShowInfo(true)} /></button>
       }
+
+      </div>
     </header>
   )
 }
