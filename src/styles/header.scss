@@ -29,15 +29,22 @@ header {
     }
   }
   
-
-  .MuiSvgIcon-root {
-    cursor: pointer;
-    justify-self: self-end;
-    margin-right: 3%;
-    color: black;
-    @include transition(color, 300ms, ease-in-out);
-    &:hover {
-      color: $blue;
+div:last-of-type {
+  justify-content: flex-end;
+}
+button{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  justify-self: self-end;
+  margin-right: 3%;
+  height: 100%;
+ .MuiSvgIcon-root {
+   color: black;
+   @include transition(color, 300ms, ease-in-out);
+   &:hover {
+     color: $blue;
+      }
     }
   }
 }
