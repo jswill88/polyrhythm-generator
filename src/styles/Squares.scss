@@ -1,0 +1,46 @@
+@import 'App';
+
+.square {
+  height: 50%;
+  max-height: 50px;
+  max-width: 100%;
+}
+.right.square {
+  background-color: #E6E644;
+  opacity: .8;
+}
+
+
+.right.square.highlight {
+  @include highlight(fadeRight)
+  
+}
+
+.left.square {
+  background-color: #44E695;
+  opacity: .8;
+}
+
+.left.square.highlight {
+  @include highlight(fadeLeft)
+}
+
+@keyframes fadeRight {
+  from {
+    background-color: #26f5f9;
+    opacity: 1;
+  }
+  to {
+    background-color: #E6E644;
+  }
+}
+
+@keyframes fadeLeft {
+  from {
+    background-color: #26f5f9;
+    opacity: 1;
+  }
+  to {
+    background-color: #44E695;
+  }
+}

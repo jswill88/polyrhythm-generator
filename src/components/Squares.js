@@ -1,4 +1,5 @@
 
+import '../styles/Squares.scss'
 export default function Squares({ rhythm, side, rightHighlight, leftHighlight }) {
   const squares = [];
   for (let i = 0; i < rhythm; i++) {

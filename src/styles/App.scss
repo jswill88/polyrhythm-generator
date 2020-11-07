@@ -63,7 +63,6 @@ $headerColor: rgba(128, 128, 128, 0.249);
   }
 }
 
-
 span.PrivateValueLabel-label-5 {
   color: white;
   background-color: transparent;
@@ -200,53 +199,7 @@ from {
   }
 }
 
-.square {
-  height: 50%;
-  max-height: 50px;
-  max-width: 100%;
-  // border: 1px solid gray;
-}
-.right.square {
-  
-  // background-color: #030a59;
-  background-color: #E6E644;
-  opacity: .8;
-}
 
-
-.right.square.highlight {
-  @include highlight(fadeRight)
-  
-}
-
-.left.square {
-  background-color: #44E695;
-  opacity: .8;
-}
-
-.left.square.highlight {
-  @include highlight(fadeLeft)
-}
-
-@keyframes fadeRight {
-  from {
-    background-color: #26f5f9;
-    opacity: 1;
-  }
-  to {
-    background-color: #E6E644;
-  }
-}
-
-@keyframes fadeLeft {
-  from {
-    background-color: #26f5f9;
-    opacity: 1;
-  }
-  to {
-    background-color: #44E695;
-  }
-}
 
 .container {
   display: flex;
