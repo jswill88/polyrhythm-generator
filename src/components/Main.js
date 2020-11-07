@@ -8,6 +8,7 @@ import StopIcon from '@material-ui/icons/Stop';
 import '../styles/App.scss';
 import Squares from './Squares';
 import Notes from './Notes';
+import { Thumb } from './MainComponents/Thumb'
 
 export default function Main({ showInfo }) {
 
@@ -28,7 +29,6 @@ export default function Main({ showInfo }) {
     await Tone.start();
     Tone.Transport.start('+0.1');
   }
-
 
   useEffect(() => {
 
@@ -62,7 +62,6 @@ export default function Main({ showInfo }) {
     return () => {
       lLoop.cancel()
       rLoop.cancel();
-
     }
 
   }, [rightRhythm, leftRhythm, leftNote, rightNote, tempo])
@@ -79,6 +78,7 @@ export default function Main({ showInfo }) {
     unhighlight();
     Tone.Transport.stop();
   }
+
   const unhighlight = () => {
     setLeftHighlight(-2)
     setRightHighlight(-2)
@@ -108,82 +108,93 @@ export default function Main({ showInfo }) {
     setTempo(value)
   }
 
-  const handleVolume = (e, value) => {
-    setVolume(value)
-  }
-  const Thumb = (props) => {
-    console.log(props)
-    return (
-    <span {...props}>
-      {props['aria-label'] === 'tempo'
-      ? props['aria-valuenow']
-      : (props['aria-valuenow'] + 55) / 5
+  const handleVolume = (e, value) => setVolume(value);
+  
+  const Stop = () => (
+    <button
+      id='button'
+      className="stop"
+      onClick={stop}>
+      <StopIcon />
+    </button>
+  )
+  const Play = () => (
+    <button
+      id='button'
+      onClick={setTimers}>
+      <PlayArrowIcon />
+    </button>
+  )
+  const Tempo = () => (
+    <>
+      <div
+        title="Set the tempo for the base rhythm"
+        className={"control"}
+      >
+        <label htmlFor="tempo">BPM</label>
+        <Slider
+          name="tempo"
+          aria-label="tempo"
+          min={40}
+          max={150}
+          step={1}
+          value={tempo}
+          onChange={handleTempo}
+          ThumbComponent={Thumb}
+        />
+      </div>
+    </>
+  )
+  const Volume = () => (
+    <>
+      <div
+        title="Set the master volume"
+        className={"control"}
+      >
+        <label htmlFor="volume">Volume</label>
+        <Slider
+          name="volume"
+          aria-label="volume"
+          min={-55}
+          max={-15}
+          step={5}
+          value={volume}
+          onChange={handleVolume}
+          ThumbComponent={Thumb}
+        />
+      </div>
+    </>
+  )
+
+  const StartStopButton = () => (
+    <div title="Start and stop the music" className={"control"}>
+      {rightHighlight > -1
+        ? <Stop />
+        : <Play />
       }
-      </span>)
-  };
+    </div>
+  )
+
+  const Subtitle = ({ text }) => <div className="subtitle"><h2>{text}</h2></div>
 
   return (
     <main>
       <section className="globalControls">
         <StylesProvider injectFirst>
-          <div
-            title="Set the tempo for the base rhythm"
-            className={"control"}
-          >
-            <label htmlFor="tempo">BPM</label>
-            <Slider
-              name="tempo"
-              aria-label="tempo"
-              min={40}
-              max={150}
-              step={1}
-              value={tempo}
-              onChange={handleTempo}
-              ThumbComponent={Thumb}
-            />
-          </div>
-          <div
-            title="Set the master volume"
-            className={"control"}
-          >
-            <label htmlFor="volume">Volume</label>
-            <Slider
-              name="volume"
-              aria-label="volume"
-              min={-55}
-              max={-15}
-              step={5}
-              value={volume}
-              onChange={handleVolume}
-              ThumbComponent={Thumb}
-            />
-          </div>
-          <div title="Start and stop the music" className={"control"}>
-            {rightHighlight > -1
-              ? <button id='button' className="stop" onClick={stop}>
-                <StopIcon /></button>
-              : <button id='button' onClick={setTimers}>
-                <PlayArrowIcon /></button>
-            }
-          </div>
+          <Tempo />
+          <Volume />
+          <StartStopButton />
         </StylesProvider>
       </section>
 
       <div className="container">
-
         <div className="blinkBox">
-
-          <div className="subtitle">
-            <h2>Base Rhythm</h2>
-          </div>
-
+          <Subtitle text="Base Rhythm" />
           <div className="sideHeader">
-
             <div
               className={"sideControl"}
               title="Set the number of beats in the base rhythm"
             >
-
               <label htmlFor="leftSub">Beats:</label>
 
               <input
@@ -211,6 +222,7 @@ export default function Main({ showInfo }) {
                   setRightNote,
                   showInfo
                 })}
+
             </div>
           </div>
 
@@ -226,18 +238,17 @@ export default function Main({ showInfo }) {
         </div>
 
         <div className="blinkBox">
-          <div className="subtitle">
 
-            <h2>Cross Rhythm</h2>
-          </div>
+          <Subtitle text="Cross Rhythm" />
 
           <div className="sideHeader">
 
             <div
               className="sideControl"
-              title="Set the number of beats in the cross rhythm">
-              <label htmlFor="rightSub">Beats:</label>
+              title="Set the number of beats in the cross rhythm"
+              >
 
+              <label htmlFor="rightSub">Beats:</label>
               <input
                 className={rightError ? 'error' : null}
                 id="rightSub"
@@ -246,6 +257,7 @@ export default function Main({ showInfo }) {
                 max={Math.floor(parseInt(leftRhythm) * 6)}
                 defaultValue={rightRhythm}
                 onChange={handleRight} />
+
             </div>
 
             <div className={"sideControl"}
@@ -265,8 +277,8 @@ export default function Main({ showInfo }) {
                 })
               }
             </div>
-
           </div>
+
           <div className="sideBody">
             <Squares
               rhythm={rightRhythm}
@@ -275,14 +287,8 @@ export default function Main({ showInfo }) {
               leftHighlight={leftHighlight}
             />
           </div>
-
-
         </div>
-
-
-
       </div>
-
     </main>
   );
 }

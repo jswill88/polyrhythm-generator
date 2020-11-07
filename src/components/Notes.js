@@ -1,4 +1,4 @@
-export default function Notes({ noteArray, rl, leftNote, rightNote, setLeftNote, setRightNote, showInfo }) {
+export default function Notes({ noteArray, rl, leftNote, rightNote, setLeftNote, setRightNote }) {
   return (
     <>
       <label
