@@ -44,7 +44,7 @@ $headerColor: rgba(128, 128, 128, 0.249);
 
 .globalControls { 
   background-color: rgba(0, 0, 255, 0.173);
-  height: 7vh;
+  height: 8vh;
   min-height: 40px;
   @include display(flex, space-evenly, center);
   
@@ -58,13 +58,13 @@ $headerColor: rgba(128, 128, 128, 0.249);
     padding: 2px;
     
   }
-  .outline {
-    border: 1px solid black;
-    animation: 2000ms ease-out 1 fill;
-    &:hover div {
-      display: block;
-    }
-  }
+  // .outline {
+  //   border: 1px solid black;
+  //   animation: 2000ms ease-out 1 fill;
+  //   &:hover div {
+  //     display: block;
+  //   }
+  // }
 }
 
 
@@ -102,6 +102,31 @@ span.PrivateValueLabel-offset-3 {
   }
 }
 
+@media only screen and (max-width: 480px){
+  
+  .MuiSlider{
+    &-root {
+      width: 92%;
+    }
+    &-thumbColorPrimary {
+      top: 1.6vh;
+      pointer-events: none;
+    }
+  }
+  .control {
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    
+    label{
+      margin-top: 5px;
+      width: 100%;
+      height: 100%;
+      // text-align: center;
+    
+    }
+  }
+}
 .info {
   z-index: 1;
   position: absolute;

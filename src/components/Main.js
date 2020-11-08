@@ -21,7 +21,7 @@ export default function Main({ showInfo }) {
   const [rightNote, setRightNote] = useState('F3')
   const [leftError, setLeftError] = useState(false);
   const [rightError, setRightError] = useState(false);
-  const [volume, setVolume] = useState(-30);
+  const [volume, setVolume] = useState(-20);
 
   const setTimers = async () => {
     setLeftHighlight(-1);
@@ -35,8 +35,46 @@ export default function Main({ showInfo }) {
 
     const leftPanner = new Tone.Panner(.85).toDestination();
     const rightPanner = new Tone.Panner(-.85).toDestination();
-    const synth = new Tone.PolySynth(Tone.Synth).connect(leftPanner)
-    const synth2 = new Tone.PolySynth(Tone.Synth).connect(rightPanner)
+    // const synth = new Tone.PolySynth(Tone.Synth).connect(leftPanner)
+    const synth = new Tone.Synth().set({
+      oscillator: {
+        type: 'sine',
+      },
+      envelope: {
+        attack: .2,
+        release: .6,
+      },
+      filter: {
+        Q: 2,
+        type: 'lowpass',
+      },
+      volume: 20,
+      portamento: 5,
+
+      // harmonicity: 5,
+      // modulationIndex: 10,
+      // modulation: {
+      //   type: 'amsine15',
+      // }
+
+
+    }).connect(leftPanner)
+
+    const synth2 = new Tone.Synth().set({
+      oscillator: {
+        type: 'sine',
+      },
+      envelope: {
+        attack: .2,
+        release: .6,
+      },
+      filter: {
+        Q: 2,
+        type: 'lowpass',
+      },
+      volume: 20,
+      portamento: 5,
+    }).connect(rightPanner)
 
     let lLoop = new Tone.Loop(time => {
 
@@ -45,7 +83,7 @@ export default function Main({ showInfo }) {
         setLeftHighlight(prev => (prev + 1) % rightRhythm)
       }, time)
 
-    }, `0:${leftRhythm}`).start(.05)
+    }, `0:${leftRhythm}`).start(.1)
 
     let rLoop = new Tone.Loop(time => {
 
@@ -55,7 +93,7 @@ export default function Main({ showInfo }) {
         setRightHighlight(prev => (prev + 1) % leftRhythm)
       }, time)
 
-    }, `0:${rightRhythm}`).start(.05)
+    }, `0:${rightRhythm}`).start(.1)
 
 
     Tone.Transport.bpm.value = rightRhythm * tempo;
@@ -112,14 +150,15 @@ export default function Main({ showInfo }) {
   const handleVolume = (e, value) => {
     setVolume(value)
   }
-  const Thumb = (props) => {
-    console.log(props)
-    return (
-    <span {...props}>
-      {props['aria-label'] === 'tempo'
+  function Thumb (props) {
+    let value = props['aria-label'] === 'tempo'
       ? props['aria-valuenow']
       : (props['aria-valuenow'] + 55) / 5
-      }
+    return (
+      <span {...props}>
+        <span>
+          {value}
+        </span>
       </span>)
   };
 
