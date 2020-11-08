@@ -58,13 +58,6 @@ $headerColor: rgba(128, 128, 128, 0.249);
     padding: 2px;
     
   }
-  // .outline {
-  //   border: 1px solid black;
-  //   animation: 2000ms ease-out 1 fill;
-  //   &:hover div {
-  //     display: block;
-  //   }
-  // }
 }
 
 
@@ -98,7 +91,6 @@ span.PrivateValueLabel-offset-3 {
     font-size: .7em;
     background-color: #3f51b5;
     color: white;
-
   }
 }
 
@@ -124,39 +116,6 @@ span.PrivateValueLabel-offset-3 {
       height: 100%;
     }
   }
-}
-.info {
-  z-index: 1;
-  position: absolute;
-  top: 7vh;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  text-align: center;
-  width: 100%;
-  padding: 6px;
-  animation: 200ms cubic-bezier(.1, -1, .3, 1.1) 1 slideDown;
-  display: none;
-}
-
-@keyframes slideDown {
-  from {
-    top: -200vh;
-  }
-  to {
-    top: 7vh;
-  }
-}
-@keyframes bounce {
-from {
-  top: 30px;
-}
-25% {
-  top:26px;
-}
-75% {
-  top:30px;
-}
-
 }
 
 

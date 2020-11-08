@@ -10,7 +10,7 @@ import '../styles/App.scss';
 import Squares from './Squares';
 import Notes from './Notes';
 
-export default function Main({ showInfo }) {
+export default function Main() {
 
   const [leftRhythm, setLeftRhythm] = useState(3);
   const [rightRhythm, setRightRhythm] = useState(4);
@@ -23,6 +23,7 @@ export default function Main({ showInfo }) {
   const [rightError, setRightError] = useState(false);
   const [volume, setVolume] = useState(-20);
 
+
   const setTimers = async () => {
     setLeftHighlight(-1);
     setRightHighlight(-1);
@@ -30,88 +31,52 @@ export default function Main({ showInfo }) {
     Tone.Transport.start('+0.1');
   }
 
+  const makeSynth = panner => new Tone.Synth().set({
+    oscillator: {
+      type: 'sine',
+    },
+    envelope: {
+      attack: .2,
+      release: .6,
+    },
+    filter: {
+      Q: 2,
+      type: 'lowpass',
+    },
+    volume: 20,
+    portamento: 5,
+  }).connect(panner)
+
+  const makeLoop = (rhythm, synth, note, oppRhythm, highlight) => {
+    return new Tone.Loop(time => {
+
+      synth.triggerAttackRelease(note, '32n', time);
+      Tone.Draw.schedule(() => {
+
+        highlight(prev => (prev + 1) % oppRhythm)
+      }, time)
+
+    }, `0:${rhythm}`).start(.1);
+  }
 
   useEffect(() => {
 
     const leftPanner = new Tone.Panner(.85).toDestination();
     const rightPanner = new Tone.Panner(-.85).toDestination();
-    // const synth = new Tone.PolySynth(Tone.Synth).connect(leftPanner)
-    const synth = new Tone.Synth().set({
-      oscillator: {
-        type: 'sine',
-      },
-      envelope: {
-        attack: .2,
-        release: .6,
-      },
-      filter: {
-        Q: 2,
-        type: 'lowpass',
-      },
-      volume: 20,
-      portamento: 5,
-
-      // harmonicity: 5,
-      // modulationIndex: 10,
-      // modulation: {
-      //   type: 'amsine15',
-      // }
-
-
-    }).connect(leftPanner)
-
-    const synth2 = new Tone.Synth().set({
-      oscillator: {
-        type: 'sine',
-      },
-      envelope: {
-        attack: .2,
-        release: .6,
-      },
-      filter: {
-        Q: 2,
-        type: 'lowpass',
-      },
-      volume: 20,
-      portamento: 5,
-    }).connect(rightPanner)
-
-    let lLoop = new Tone.Loop(time => {
-
-      synth.triggerAttackRelease(leftNote, '32n', time);
-      Tone.Draw.schedule(() => {
-        setLeftHighlight(prev => (prev + 1) % rightRhythm)
-      }, time)
-
-    }, `0:${leftRhythm}`).start(.1)
-
-    let rLoop = new Tone.Loop(time => {
-
-      synth2.triggerAttackRelease(rightNote, '32n', time);
-      Tone.Draw.schedule(() => {
-
-        setRightHighlight(prev => (prev + 1) % leftRhythm)
-      }, time)
-
-    }, `0:${rightRhythm}`).start(.1)
-
-
+    const synth = makeSynth(leftPanner);
+    const synth2 = makeSynth(rightPanner);
+    let lLoop = makeLoop(leftRhythm, synth, leftNote, rightRhythm, setLeftHighlight)
+    let rLoop = makeLoop(rightRhythm, synth2, rightNote,leftRhythm, setRightHighlight)
     Tone.Transport.bpm.value = rightRhythm * tempo;
 
     return () => {
       lLoop.cancel()
       rLoop.cancel();
-
     }
-
   }, [rightRhythm, leftRhythm, leftNote, rightNote, tempo])
 
   useEffect(() => {
-    if (volume < -40) {
-      Tone.Destination.volume.value = -1000;
-    } else {
-      Tone.Destination.volume.value = volume;
-    }
+    Tone.Destination.volume.value = (volume < -40) ? -1000 : volume;
   }, [volume])
 
   const stop = () => {
@@ -147,10 +112,9 @@ export default function Main({ showInfo }) {
     setTempo(value)
   }
 
-  const handleVolume = (e, value) => {
-    setVolume(value)
-  }
-  function Thumb (props) {
+  const handleVolume = (e, value) => setVolume(value);
+
+  function Thumb(props) {
     let value = props['aria-label'] === 'tempo'
       ? props['aria-valuenow']
       : (props['aria-valuenow'] + 40) / 5 + 1
@@ -162,10 +126,23 @@ export default function Main({ showInfo }) {
       </span>)
   };
 
+  function PlayButton({ setTimers }) {
+    return (
+      <button
+        id='button'
+        onClick={setTimers}
+      >
+        <PlayArrowIcon />
+      </button>
+    )
+  }
+  const SubTitle = ({ text }) => <div className="subtitle"><h2>{text}</h2></div>
+
   return (
     <main>
       <section className="globalControls">
         <StylesProvider injectFirst>
+
           <div
             title="Set the tempo for the base rhythm"
             className={"control"}
@@ -182,6 +159,7 @@ export default function Main({ showInfo }) {
               ThumbComponent={Thumb}
             />
           </div>
+
           <div
             title="Set the master volume"
             className={"control"}
@@ -198,29 +176,27 @@ export default function Main({ showInfo }) {
               ThumbComponent={Thumb}
             />
           </div>
+
           <div title="Start and stop the music" className={"control"}>
             {rightHighlight > -1
               ? <button id='button' className="stop" onClick={stop}>
                 <StopIcon /></button>
-              : <button id='button' onClick={setTimers}>
-                <PlayArrowIcon /></button>
+              : <PlayButton setTimers={setTimers} />
             }
           </div>
+
         </StylesProvider>
       </section>
 
       <div className="container">
-
         <div className="blinkBox">
 
-          <div className="subtitle">
-            <h2>Base Rhythm</h2>
-          </div>
+          <SubTitle text="Base Rhythm" />
 
           <div className="sideHeader">
 
             <div
-              className={"sideControl"}
+              className="sideControl"
               title="Set the number of beats in the base rhythm"
             >
 
@@ -237,47 +213,37 @@ export default function Main({ showInfo }) {
             </div>
 
             <div
-              className={"sideControl"}
+              className="sideControl"
               title="Set the pitch of the left note"
             >
               {leftError
                 ? <p>Input must be 2 or greater</p>
                 : Notes({
                   noteArray: ['Bb2', 'B2', 'C3', 'Db3', 'D3', 'Eb3', 'E3', 'F3', 'Gb3', 'G3', 'Ab3', 'A3'],
-                  rl: 'left',
-                  leftNote,
-                  rightNote,
-                  setLeftNote,
-                  setRightNote,
-                  showInfo
+                  note: rightNote,
+                  callback: setRightNote,
                 })}
             </div>
           </div>
 
-          <div className="sideBody">
-            <Squares
-              rhythm={leftRhythm}
-              side='left'
-              rightHighlight={rightHighlight}
-              leftHighlight={leftHighlight}
-            />
-          </div>
+          <Squares
+            rhythm={leftRhythm}
+            side='left'
+            highlight={rightHighlight}
+          />
 
         </div>
 
         <div className="blinkBox">
-          <div className="subtitle">
-
-            <h2>Cross Rhythm</h2>
-          </div>
+          <SubTitle text="Cross Rhythm" />
 
           <div className="sideHeader">
 
             <div
               className="sideControl"
               title="Set the number of beats in the cross rhythm">
-              <label htmlFor="rightSub">Beats:</label>
 
+              <label htmlFor="rightSub">Beats:</label>
               <input
                 className={rightError ? 'error' : null}
                 id="rightSub"
@@ -296,33 +262,22 @@ export default function Main({ showInfo }) {
                 </p>
                 : Notes({
                   noteArray: ['Bb3', 'B3', 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4'],
-                  rl: 'right',
-                  leftNote,
-                  rightNote,
-                  setLeftNote,
-                  setRightNote,
-                  showInfo
+                  note: leftNote,
+                  callback: setLeftNote,
                 })
               }
             </div>
 
           </div>
-          <div className="sideBody">
-            <Squares
-              rhythm={rightRhythm}
-              side='right'
-              rightHighlight={rightHighlight}
-              leftHighlight={leftHighlight}
-            />
-          </div>
 
+          <Squares
+            rhythm={rightRhythm}
+            side='right'
+            highlight={leftHighlight}
+          />
 
         </div>
-
-
-
       </div>
-
     </main>
   );
 }

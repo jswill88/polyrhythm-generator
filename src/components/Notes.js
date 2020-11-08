@@ -1,4 +1,5 @@
-export default function Notes({ noteArray, rl, leftNote, rightNote, setLeftNote, setRightNote, showInfo }) {
+
+export default function Notes({ noteArray, note,  callback }) {
   return (
     <>
       <label
@@ -6,12 +7,9 @@ export default function Notes({ noteArray, rl, leftNote, rightNote, setLeftNote,
       >Note: </label>
       <select
         id="notes"
-        defaultValue={rl === 'right' ? leftNote : rightNote}
-        onChange={
-          e => rl === 'right'
-            ? setLeftNote(e.target.value)
-            : setRightNote(e.target.value)
-        }>
+        defaultValue={note}
+        onChange={e => callback(e.target.value)}
+        >
         {noteArray.map((note, i) =>
           <option
             value={note}

@@ -1,6 +1,6 @@
 
 import '../styles/Squares.scss'
-export default function Squares({ rhythm, side, rightHighlight, leftHighlight }) {
+export default function Squares({ rhythm, side, highlight }) {
   const squares = [];
   for (let i = 0; i < rhythm; i++) {
     squares.push(
@@ -9,10 +9,8 @@ export default function Squares({ rhythm, side, rightHighlight, leftHighlight })
       >
         <div
           className={
-            `${side} square ${side === 'left'
-              ? i === rightHighlight ? `highlight`
-                : null
-              : i === leftHighlight ? `highlight`
+            `${side} square ${ i === highlight
+                ? `highlight`
                 : null
             }`
           }
@@ -21,5 +19,5 @@ export default function Squares({ rhythm, side, rightHighlight, leftHighlight })
       </div>
     )
   }
-  return squares;
+  return <div className="sideBody">{squares}</div>;
 }
