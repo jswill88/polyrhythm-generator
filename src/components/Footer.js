@@ -11,17 +11,19 @@ export default function Footer() {
         <p>
           <a
             href="https://github.com/jswill88/polyrhythm-generator"
-            target="blank">
-            See Repository</a>
+          >
+            See Repository
+          </a>
         </p>
         <p>
           <a
             href="https://github.com/jswill88"
-            target="blank">
-            <GitHubIcon /></a>
+          >
+            <GitHubIcon />
+          </a>
           <a
             href="https://www.linkedin.com/in/joshua-s-williams/"
-            target="blank">
+          >
             <LinkedInIcon color="primary" /></a>
         </p>
 

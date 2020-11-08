@@ -12,7 +12,7 @@
 
 
 .right.square.highlight {
-  @include highlight(fadeRight)
+  @include highlight(fadeRight);
   
 }
 
@@ -22,7 +22,7 @@
 }
 
 .left.square.highlight {
-  @include highlight(fadeLeft)
+  @include highlight(fadeLeft);
 }
 
 @keyframes fadeRight {
