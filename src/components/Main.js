@@ -27,11 +27,13 @@ export default function Main() {
   const setTimers = async () => {
     setLeftHighlight(-1);
     setRightHighlight(-1);
+    
     await Tone.start();
+    Tone.Destination.volume.value = volume;
     Tone.Transport.start('+0.1');
   }
 
-  const makeSynth = panner => new Tone.Synth().set({
+  const makeSynth = (panner,gain) => new Tone.Synth().set({
     oscillator: {
       type: 'sine',
     },
@@ -45,7 +47,7 @@ export default function Main() {
     },
     volume: 20,
     portamento: 5,
-  }).connect(panner)
+  }).chain(gain, panner)
 
   const makeLoop = (rhythm, synth, note, oppRhythm, highlight) => {
     return new Tone.Loop(time => {
@@ -60,11 +62,11 @@ export default function Main() {
   }
 
   useEffect(() => {
-
+    const gainNode = new Tone.Gain(.6);
     const leftPanner = new Tone.Panner(.85).toDestination();
     const rightPanner = new Tone.Panner(-.85).toDestination();
-    const synth = makeSynth(leftPanner);
-    const synth2 = makeSynth(rightPanner);
+    const synth = makeSynth(leftPanner, gainNode);
+    const synth2 = makeSynth(rightPanner,gainNode);
     let lLoop = makeLoop(leftRhythm, synth, leftNote, rightRhythm, setLeftHighlight)
     let rLoop = makeLoop(rightRhythm, synth2, rightNote,leftRhythm, setRightHighlight)
     Tone.Transport.bpm.value = rightRhythm * tempo;
@@ -76,16 +78,19 @@ export default function Main() {
   }, [rightRhythm, leftRhythm, leftNote, rightNote, tempo])
 
   useEffect(() => {
-    Tone.Destination.volume.value = (volume < -40) ? -1000 : volume;
+    Tone.Destination.volume.rampTo(
+      (volume < -40) ? -1000 : volume,
+      .2)
   }, [volume])
 
-  const stop = () => {
+  const stop = async () => {
     unhighlight();
-    Tone.Transport.stop();
+    Tone.Destination.volume.rampTo(-1000, .3)
+    Tone.Transport.stop('+0.1');
   }
   const unhighlight = () => {
-    setLeftHighlight(-2)
-    setRightHighlight(-2)
+      setRightHighlight(-4)
+      setLeftHighlight(-4)
   }
 
   const handleLeft = event => {
@@ -178,7 +183,7 @@ export default function Main() {
           </div>
 
           <div title="Start and stop the music" className={"control"}>
-            {rightHighlight > -1
+            {leftHighlight > -1
               ? <button id='button' className="stop" onClick={stop}>
                 <StopIcon /></button>
               : <PlayButton setTimers={setTimers} />
