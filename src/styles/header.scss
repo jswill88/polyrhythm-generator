@@ -1,9 +1,8 @@
-@import 'App';
-
+@import "App";
 
 header {
+  display: flex;
   @include display(flex, space-between, center);
-
   flex-direction: row;
   height: 8vh;
   background-color: $headerColor;
@@ -12,15 +11,14 @@ header {
     width: 50%;
   }
   h1 {
-    font-family: 'Audiowide', cursive;
+    font-family: "Audiowide", cursive;
     font-size: 1.5em;
     margin-left: 1%;
-    
   }
   img {
     margin-left: 3%;
     height: 5vh;
-    &:active{
+    &:active {
       animation-name: flip;
       animation-duration: 1000ms;
       animation-iteration-count: infinite;
@@ -28,22 +26,22 @@ header {
       animation-timing-function: linear;
     }
   }
-  
-div:last-of-type {
-  justify-content: flex-end;
-}
-button{
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  justify-self: self-end;
-  margin-right: 3%;
-  height: 100%;
- .MuiSvgIcon-root {
-   color: black;
-   @include transition(color, 300ms, ease-in-out);
-   &:hover {
-     color: $blue;
+
+  div:last-of-type {
+    justify-content: flex-end;
+  }
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    justify-self: self-end;
+    margin-right: 3%;
+    height: 100%;
+    .MuiSvgIcon-root {
+      color: black;
+      @include transition(color, 300ms, ease-in-out);
+      &:hover {
+        color: $blue;
       }
     }
   }
@@ -58,5 +56,17 @@ button{
   }
   to {
     transform: rotateY(359deg);
+  }
+}
+
+@media only screen and (max-width: 480px){
+  header {
+    div:last-of-type {
+      width: 10%;
+    }
+    div:first-of-type {
+      width: 100%;
+      // background-color: lawngreen;
+    }
   }
 }

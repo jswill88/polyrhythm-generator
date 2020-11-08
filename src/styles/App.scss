@@ -35,7 +35,11 @@ $headerColor: rgba(128, 128, 128, 0.249);
 
 * {
   font-family: $bodyFont;
-  font-size: .9em;
+  font-size: 1em;
+}
+
+.container {
+  display: flex;
 }
 
 .globalControls { 
@@ -92,7 +96,6 @@ span.PrivateValueLabel-offset-3 {
     width: 25px;
     top: .9vh;
     font-size: .7em;
-    // transform: scale(2);
     background-color: #3f51b5;
     color: white;
 
@@ -101,14 +104,10 @@ span.PrivateValueLabel-offset-3 {
 
 .info {
   z-index: 1;
-  // align-self: none;
-  // display: block;
   position: absolute;
   top: 7vh;
-  // left: 25%;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
-  // height: 50px;
   text-align: center;
   width: 100%;
   padding: 6px;
@@ -185,7 +184,7 @@ from {
     }
   }
   .subtitle{
-    @include display(flex,center ,center );
+    @include display(flex,center,center );
     width: 60%;
     height: 6%;
     h2 {
@@ -200,24 +199,12 @@ from {
   width: 60%;
   display: flex;
   flex-direction: column;
+  // background-color: black;
   div {
-    justify-self: stretch;
-    flex-grow: 5;
-    display: flex;
-    
+    // justify-self: stretch;
+    // flex-grow: 5;
+    height: 50%;
   }
-}
-
-
-
-.container {
-  display: flex;
-}
-
-label + .info {
-  top: 6vh;
-  width: 90%;
-
 }
 
 .sideHeader {
@@ -227,9 +214,9 @@ label + .info {
   height: 8%;
   flex-direction: row;
   p {
-    font-size: .8em;
+    font-size: .9em;
     color: red;
-    width: 37%;
+    width: 100%;
   }
 
   .sideControl {
@@ -262,5 +249,30 @@ label + .info {
   }
   select {
     width: 55%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .blinkBox {
+    height: 63vh;
+  }
+  .sideBody, .sideHeader {
+    width: 90%;
+    flex-direction: column;
+    justify-content: baseline;
+  }
+  .sideHeader {
+    height: 12%;
+    margin-bottom: 1vh;
+    .sideControl{
+      width: 100%;
+
+    }
+    p {
+      margin-top: 2vh;
+    }
+  }
+  .blinkBox .subtitle {
+    width: 100%;
   }
 }

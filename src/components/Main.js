@@ -5,6 +5,7 @@ import { StylesProvider } from "@material-ui/core/styles";
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 
+
 import '../styles/App.scss';
 import Squares from './Squares';
 import Notes from './Notes';

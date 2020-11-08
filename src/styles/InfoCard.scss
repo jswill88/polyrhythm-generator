@@ -33,3 +33,13 @@
     }
   }
 }
+
+@media only screen and (max-width: 480px) {
+  #infoCard {
+    width: 90%;
+    right: 5%;
+    margin: auto;
+    position: fixed;
+    font-size: 1.2em;
+  }
+}
