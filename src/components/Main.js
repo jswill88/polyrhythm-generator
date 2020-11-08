@@ -107,7 +107,7 @@ export default function Main({ showInfo }) {
   }, [rightRhythm, leftRhythm, leftNote, rightNote, tempo])
 
   useEffect(() => {
-    if (volume < -50) {
+    if (volume < -40) {
       Tone.Destination.volume.value = -1000;
     } else {
       Tone.Destination.volume.value = volume;
@@ -153,7 +153,7 @@ export default function Main({ showInfo }) {
   function Thumb (props) {
     let value = props['aria-label'] === 'tempo'
       ? props['aria-valuenow']
-      : (props['aria-valuenow'] + 55) / 5
+      : (props['aria-valuenow'] + 40) / 5 + 1
     return (
       <span {...props}>
         <span>
@@ -190,8 +190,8 @@ export default function Main({ showInfo }) {
             <Slider
               name="volume"
               aria-label="volume"
-              min={-55}
-              max={-15}
+              min={-45}
+              max={-5}
               step={5}
               value={volume}
               onChange={handleVolume}
