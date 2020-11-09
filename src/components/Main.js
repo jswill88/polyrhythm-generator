@@ -22,18 +22,18 @@ export default function Main() {
   const [leftError, setLeftError] = useState(false);
   const [rightError, setRightError] = useState(false);
   const [volume, setVolume] = useState(-20);
-
+  const [started, setStarted] = useState(false)
 
   const setTimers = async () => {
     setLeftHighlight(-1);
     setRightHighlight(-1);
-    
     await Tone.start();
+    setStarted(true);
     Tone.Destination.volume.value = volume;
     Tone.Transport.start('+0.1');
   }
 
-  const makeSynth = (panner,gain) => new Tone.Synth().set({
+  const makeSynth = (panner, gain) => new Tone.Synth().set({
     oscillator: {
       type: 'sine',
     },
@@ -62,26 +62,30 @@ export default function Main() {
   }
 
   useEffect(() => {
-    const gainNode = new Tone.Gain(.6);
-    const leftPanner = new Tone.Panner(.85).toDestination();
-    const rightPanner = new Tone.Panner(-.85).toDestination();
-    const synth = makeSynth(leftPanner, gainNode);
-    const synth2 = makeSynth(rightPanner,gainNode);
-    let lLoop = makeLoop(leftRhythm, synth, leftNote, rightRhythm, setLeftHighlight)
-    let rLoop = makeLoop(rightRhythm, synth2, rightNote,leftRhythm, setRightHighlight)
-    Tone.Transport.bpm.value = rightRhythm * tempo;
+    if (started) {
+      const gainNode = new Tone.Gain(.6);
+      const leftPanner = new Tone.Panner(.85).toDestination();
+      const rightPanner = new Tone.Panner(-.85).toDestination();
+      const synth = makeSynth(leftPanner, gainNode);
+      const synth2 = makeSynth(rightPanner, gainNode);
+      let lLoop = makeLoop(leftRhythm, synth, leftNote, rightRhythm, setLeftHighlight)
+      let rLoop = makeLoop(rightRhythm, synth2, rightNote, leftRhythm, setRightHighlight)
+      Tone.Transport.bpm.value = rightRhythm * tempo;
 
-    return () => {
-      lLoop.cancel()
-      rLoop.cancel();
+      return () => {
+        lLoop.cancel()
+        rLoop.cancel();
+      }
     }
-  }, [rightRhythm, leftRhythm, leftNote, rightNote, tempo])
+  }, [rightRhythm, leftRhythm, leftNote, rightNote, tempo, started])
 
   useEffect(() => {
-    Tone.Destination.volume.rampTo(
-      (volume < -40) ? -1000 : volume,
-      .2)
-  }, [volume])
+    if (started) {
+      Tone.Destination.volume.rampTo(
+        (volume < -40) ? -1000 : volume,
+        .2)
+    }
+  }, [volume, started])
 
   const stop = async () => {
     unhighlight();
@@ -89,8 +93,8 @@ export default function Main() {
     Tone.Transport.stop('+0.1');
   }
   const unhighlight = () => {
-      setRightHighlight(-4)
-      setLeftHighlight(-4)
+    setRightHighlight(-4)
+    setLeftHighlight(-4)
   }
 
   const handleLeft = event => {
