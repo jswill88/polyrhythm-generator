@@ -9,12 +9,12 @@ import StopIcon from '@material-ui/icons/Stop';
 import '../styles/App.scss';
 import Squares from './Squares';
 import Notes from './Notes';
+import useTempo from '../hooks/useTempo'
 
 export default function Main() {
 
   const [leftRhythm, setLeftRhythm] = useState(3);
   const [rightRhythm, setRightRhythm] = useState(4);
-  const [tempo, setTempo] = useState(100);
   const [leftHighlight, setLeftHighlight] = useState(-1);
   const [rightHighlight, setRightHighlight] = useState(-1);
   const [leftNote, setLeftNote] = useState('C4')
@@ -23,6 +23,9 @@ export default function Main() {
   const [rightError, setRightError] = useState(false);
   const [volume, setVolume] = useState(-20);
   const [started, setStarted] = useState(false)
+  
+  const [tempo, setTempo] = useTempo(rightRhythm);
+
 
   const setTimers = async () => {
     setLeftHighlight(-1);
@@ -33,13 +36,15 @@ export default function Main() {
     Tone.Transport.start('+0.1');
   }
 
-  const makeSynth = (panner, gain) => new Tone.Synth().set({
+  const makeSynth = (panner, gain) => new Tone.Synth({
     oscillator: {
       type: 'sine',
     },
     envelope: {
       attack: .2,
-      release: .6,
+      release: .5,
+      // decay: .4,
+      // releaseCurve: 'cosine',
     },
     filter: {
       Q: 2,
@@ -47,7 +52,8 @@ export default function Main() {
     },
     volume: 20,
     portamento: 5,
-  }).chain(gain, panner)
+
+  }).chain(gain, panner).toDestination()
 
   const makeLoop = (rhythm, synth, note, oppRhythm, highlight) => {
     return new Tone.Loop(time => {
@@ -64,32 +70,37 @@ export default function Main() {
   useEffect(() => {
     if (started) {
       const gainNode = new Tone.Gain(.6);
-      const leftPanner = new Tone.Panner(.85).toDestination();
-      const rightPanner = new Tone.Panner(-.85).toDestination();
+      const leftPanner = new Tone.Panner(.85)//.toDestination();
+      const rightPanner = new Tone.Panner(-.85)//.toDestination();
       const synth = makeSynth(leftPanner, gainNode);
-      const synth2 = makeSynth(rightPanner, gainNode);
+      const synth2 = makeSynth(rightPanner, gainNode)
       let lLoop = makeLoop(leftRhythm, synth, leftNote, rightRhythm, setLeftHighlight)
       let rLoop = makeLoop(rightRhythm, synth2, rightNote, leftRhythm, setRightHighlight)
-      Tone.Transport.bpm.value = rightRhythm * tempo;
 
       return () => {
         lLoop.cancel()
         rLoop.cancel();
       }
     }
-  }, [rightRhythm, leftRhythm, leftNote, rightNote, tempo, started])
+  }, [rightRhythm, leftRhythm, leftNote, rightNote, started])
 
   useEffect(() => {
     if (started) {
       Tone.Destination.volume.rampTo(
-        (volume < -40) ? -1000 : volume,
+        (volume < -40) ? -100 : volume,
         .2)
     }
   }, [volume, started])
 
+  useEffect(() => {
+    if (started) {
+      Tone.Transport.bpm.rampTo(tempo * rightRhythm,.2);
+    }
+  }, [tempo, rightRhythm, started])
+
   const stop = async () => {
     unhighlight();
-    Tone.Destination.volume.rampTo(-1000, .3)
+    Tone.Destination.volume.rampTo(-100, .3)
     Tone.Transport.stop('+0.1');
   }
   const unhighlight = () => {
@@ -116,17 +127,10 @@ export default function Main() {
     }
   };
 
-  const handleTempo = (e, value) => {
-    Tone.Transport.bpm.value = value * rightRhythm;
-    setTempo(value)
-  }
-
   const handleVolume = (e, value) => setVolume(value);
 
   function Thumb(props) {
-    let value = props['aria-label'] === 'tempo'
-      ? props['aria-valuenow']
-      : (props['aria-valuenow'] + 40) / 5 + 1
+    let value = (props['aria-valuenow'] + 40) / 5 + 1
     return (
       <span {...props}>
         <span>
@@ -148,30 +152,22 @@ export default function Main() {
   const SubTitle = ({ text }) => <div className="subtitle"><h2>{text}</h2></div>
 
   return (
+
     <main>
       <section className="globalControls">
         <StylesProvider injectFirst>
 
           <div
             title="Set the tempo for the base rhythm"
-            className={"control"}
+            className="control"
           >
             <label htmlFor="tempo">BPM</label>
-            <Slider
-              name="tempo"
-              aria-label="tempo"
-              min={40}
-              max={150}
-              step={1}
-              value={tempo}
-              onChange={handleTempo}
-              ThumbComponent={Thumb}
-            />
+            {setTempo}
           </div>
 
           <div
             title="Set the master volume"
-            className={"control"}
+            className="control"
           >
             <label htmlFor="volume">Volume</label>
             <Slider
