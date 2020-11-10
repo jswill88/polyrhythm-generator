@@ -70,8 +70,8 @@ export default function Main() {
   useEffect(() => {
     if (started) {
       const gainNode = new Tone.Gain(.6);
-      const leftPanner = new Tone.Panner(.85)//.toDestination();
-      const rightPanner = new Tone.Panner(-.85)//.toDestination();
+      const leftPanner = new Tone.Panner(.85)
+      const rightPanner = new Tone.Panner(-.85)
       const synth = makeSynth(leftPanner, gainNode);
       const synth2 = makeSynth(rightPanner, gainNode)
       let lLoop = makeLoop(leftRhythm, synth, leftNote, rightRhythm, setLeftHighlight)
