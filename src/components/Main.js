@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import * as Tone from 'tone';
 import { Slider } from '@material-ui/core';
 import { StylesProvider } from "@material-ui/core/styles";
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
-
 
 import '../styles/App.scss';
 import Squares from './Squares';
 import Notes from './Notes';
-import useTempo from '../hooks/useTempo'
+import PlayButton from './PlayButton';
+import useTempo from '../hooks/useTempo';
+import { makeSynth, makeLoop } from '../modules/synth';
 
 export default function Main() {
 
@@ -34,37 +34,6 @@ export default function Main() {
     setStarted(true);
     Tone.Destination.volume.value = volume;
     Tone.Transport.start('+0.1');
-  }
-
-  const makeSynth = (panner, gain) => new Tone.Synth({
-    oscillator: {
-      type: 'sine',
-    },
-    envelope: {
-      attack: .2,
-      release: .5,
-      // decay: .4,
-      // releaseCurve: 'cosine',
-    },
-    filter: {
-      Q: 2,
-      type: 'lowpass',
-    },
-    volume: 20,
-    portamento: 5,
-
-  }).chain(gain, panner).toDestination()
-
-  const makeLoop = (rhythm, synth, note, oppRhythm, highlight) => {
-    return new Tone.Loop(time => {
-
-      synth.triggerAttackRelease(note, '32n', time);
-      Tone.Draw.schedule(() => {
-
-        highlight(prev => (prev + 1) % oppRhythm)
-      }, time)
-
-    }, `0:${rhythm}`).start(.1);
   }
 
   useEffect(() => {
@@ -103,6 +72,7 @@ export default function Main() {
     Tone.Destination.volume.rampTo(-100, .3)
     Tone.Transport.stop('+0.1');
   }
+
   const unhighlight = () => {
     setRightHighlight(-4)
     setLeftHighlight(-4)
@@ -139,21 +109,13 @@ export default function Main() {
       </span>)
   };
 
-  function PlayButton({ setTimers }) {
-    return (
-      <button
-        id='button'
-        onClick={setTimers}
-      >
-        <PlayArrowIcon />
-      </button>
-    )
-  }
+
   const SubTitle = ({ text }) => <div className="subtitle"><h2>{text}</h2></div>
 
   return (
 
     <main>
+
       <section className="globalControls">
         <StylesProvider injectFirst>
 
@@ -189,7 +151,6 @@ export default function Main() {
               : <PlayButton setTimers={setTimers} />
             }
           </div>
-
         </StylesProvider>
       </section>
 
@@ -259,7 +220,7 @@ export default function Main() {
                 onChange={handleRight} />
             </div>
 
-            <div className={"sideControl"}
+            <div className="sideControl"
               title="Set the pitch of the right note">
               {rightError
                 ? <p>
