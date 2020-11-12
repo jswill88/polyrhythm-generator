@@ -47,4 +47,13 @@ footer {
   }
 }
 
+@media only screen and (max-device-width: 700px) and (orientation: landscape) {
+  footer div {
+    margin: 0;
+    // background-color: khaki;
+    width: 100%;
+    @include display(flex, space-around , center);
+  }
+}
+
 
