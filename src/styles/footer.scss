@@ -41,6 +41,19 @@ footer {
     height: 8vh;
   }
 }
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  footer {
+    height: 8vh;
+  }
+}
 
+@media only screen and (max-device-width: 700px) and (orientation: landscape) {
+  footer div {
+    margin: 0;
+    // background-color: khaki;
+    width: 100%;
+    @include display(flex, space-around , center);
+  }
+}
 
 
