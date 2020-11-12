@@ -69,3 +69,12 @@ header {
     }
   }
 }
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  header {
+    height: 5vh;
+    img {
+      height: 3.5vh;
+    }
+  }
+
+}

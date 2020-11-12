@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Montserrat&display=swap");
 
 @mixin display($display, $justify, $align) {
   display: $display;
@@ -12,7 +12,6 @@
   animation-direction: normal;
 }
 @mixin transition($transitionProperty, $transitionDuration, $transitionTimingFunction) {
-
   transition-property: $transitionProperty;
   -webkit-transition-property: $transitionProperty;
   -moz-transition-property: $transitionProperty;
@@ -29,7 +28,7 @@
   -o-transition-timing-function: $transitionTimingFunction;
 }
 
-$bodyFont:'Montserrat', sans-serif;
+$bodyFont: "Montserrat", sans-serif;
 $blue: rgb(68, 68, 230);
 $headerColor: rgba(128, 128, 128, 0.249);
 
@@ -42,13 +41,13 @@ $headerColor: rgba(128, 128, 128, 0.249);
   display: flex;
 }
 
-.globalControls { 
+.globalControls {
   background-color: rgba(0, 0, 255, 0.173);
-  height: 8vh;
+  height: 7vh;
   min-height: 40px;
   @include display(flex, space-evenly, center);
-  
-  .control{
+
+  .control {
     box-sizing: border-box;
     position: relative;
     @include display(flex, space-evenly, center);
@@ -56,15 +55,13 @@ $headerColor: rgba(128, 128, 128, 0.249);
     width: 30%;
     border: 2px solid transparent;
     padding: 2px;
-    
   }
 }
-
 
 span.PrivateValueLabel-label-5 {
   color: white;
   background-color: transparent;
-  font-size: .7em;
+  font-size: 0.7em;
 }
 span.PrivateValueLabel-circle-4 {
   color: transparent;
@@ -76,27 +73,26 @@ span.PrivateValueLabel-offset-3 {
   left: -4px;
 }
 
-.MuiSlider{
+.MuiSlider {
   &-root {
     width: 100%;
     margin-left: 1vw;
     position: relative;
   }
-  
+
   &-thumbColorPrimary {
     position: absolute;
     height: 25px;
     width: 25px;
-    top: .9vh;
-    font-size: .7em;
+    top: 0.9vh;
+    font-size: 0.7em;
     background-color: #3f51b5;
     color: white;
   }
 }
 
-@media only screen and (max-width: 480px){
-  
-  .MuiSlider{
+@media only screen and (max-width: 480px) {
+  .MuiSlider {
     &-root {
       width: 92%;
     }
@@ -109,19 +105,42 @@ span.PrivateValueLabel-offset-3 {
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
-    
-    label{
+
+    label {
       margin-top: 5px;
       width: 100%;
       height: 100%;
     }
   }
 }
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .MuiSlider {
+    &-root {
+      width: 92%;
+    }
+    &-thumbColorPrimary {
+      pointer-events: none;
+    }
+  }
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .MuiSlider-thumbColorPrimary {
+    top: 1.2vh;
+  }
+  .globalControls {
+    height: 6vh;
+  }
+}
 
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .MuiSlider-thumbColorPrimary {
+    top: 1.5vh;
+  }
+}
 
 #button {
   @include display(flex, space-evenly, center);
-  height:75%;
+  height: 75%;
   width: 100px;
   cursor: pointer;
   background-color: rgba(26, 135, 26, 0.5);
@@ -133,7 +152,7 @@ span.PrivateValueLabel-offset-3 {
 
   &:hover {
     @include transition(opacity, 300ms, ease-in);
-    opacity: .7;
+    opacity: 0.7;
   }
   &:active {
     border: none;
@@ -141,9 +160,7 @@ span.PrivateValueLabel-offset-3 {
   &.stop {
     background-color: rgba(211, 31, 11, 0.5);
   }
-
 }
-
 
 #button .MuiSvgIcon-root {
   color: white;
@@ -165,8 +182,8 @@ span.PrivateValueLabel-offset-3 {
       justify-content: flex-end;
     }
   }
-  .subtitle{
-    @include display(flex,center,center );
+  .subtitle {
+    @include display(flex, center, center);
     width: 60%;
     height: 6%;
     h2 {
@@ -176,7 +193,7 @@ span.PrivateValueLabel-offset-3 {
   }
 }
 
-.sideBody{
+.sideBody {
   height: 86%;
   width: 60%;
   display: flex;
@@ -193,7 +210,7 @@ span.PrivateValueLabel-offset-3 {
   height: 8%;
   flex-direction: row;
   p {
-    font-size: .9em;
+    font-size: 0.9em;
     color: red;
     width: 100%;
   }
@@ -201,7 +218,7 @@ span.PrivateValueLabel-offset-3 {
   .sideControl {
     width: 50%;
     height: 100%;
-    @include display(flex,space-between,center);
+    @include display(flex, space-between, center);
     position: relative;
     box-sizing: border-box;
     border: 2px solid transparent;
@@ -235,7 +252,8 @@ span.PrivateValueLabel-offset-3 {
   .blinkBox {
     height: 63vh;
   }
-  .sideBody, .sideHeader {
+  .sideBody,
+  .sideHeader {
     width: 90%;
     flex-direction: column;
     justify-content: baseline;
@@ -243,9 +261,8 @@ span.PrivateValueLabel-offset-3 {
   .sideHeader {
     height: 12%;
     margin-bottom: 1vh;
-    .sideControl{
+    .sideControl {
       width: 100%;
-
     }
     p {
       margin-top: 2vh;
@@ -253,5 +270,19 @@ span.PrivateValueLabel-offset-3 {
   }
   .blinkBox .subtitle {
     width: 100%;
+  }
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .sideBody,
+  .sideHeader {
+    width: 80%;
+  }
+  .subtitle {
+    width: 80% !important;
+  }
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .blinkBox {
+    height: 68vh;
   }
 }
