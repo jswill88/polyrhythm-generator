@@ -13,7 +13,7 @@ export function makeSynth(panner, gain) {
       Q: 2,
       type: 'lowpass',
     },
-    volume: 20,
+    volume: 10,
     portamento: 5,
 
   }).chain(gain, panner).toDestination();

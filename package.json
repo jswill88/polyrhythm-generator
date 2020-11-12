@@ -9,9 +9,12 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "node-sass": "^4.14.1",
+    "rc-slider": "^9.6.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-range": "^1.8.2",
     "react-scripts": "4.0.0",
+    "rsuite": "^4.8.4",
     "tone": "^14.7.58",
     "web-vitals": "^0.2.4"
   },

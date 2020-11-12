@@ -9,7 +9,7 @@ export default function useTempo() {
     return (
       <span {...props}>
         <span>
-          {value}
+          {props['aria-valuenow']}
         </span>
       </span>
       )
@@ -24,7 +24,7 @@ export default function useTempo() {
       max={150}
       step={1}
       value={value}
-      onChangeCommitted={(e,v) => {setTempo(v); setValue(v);}}
+      onChangeCommitted={(e,v) => { setTempo(v); setValue(v); }}
       onChange={(e,v) => setValue(v)}
       ThumbComponent={Thumb}
     />
