@@ -310,7 +310,6 @@ span.PrivateValueLabel-offset-3 {
     justify-content: center;
     flex-direction: column;
     height: 70vh !important;
-    // height: 15vh;
   }
   .blinkBox, .blinkBox:first-of-type {
     padding: 0 1vh;
@@ -320,7 +319,6 @@ span.PrivateValueLabel-offset-3 {
     width: 100%;
     height: 50% !important;
     flex-direction: row !important;
-    // height: 75vh;
     background-color: #fce4d809;
     &:first-of-type {
       align-items: flex-end;
@@ -339,9 +337,7 @@ span.PrivateValueLabel-offset-3 {
     }
   }
   .sideHeader {
-    // width: 90%;
     flex-direction: column;
-    // justify-content: baseline;
     height: 100%;
     width: 18%;
     .sideControl {
@@ -356,21 +352,15 @@ span.PrivateValueLabel-offset-3 {
   }
   
   .sideBody {
-    // height: 100%;
     margin-left: 5%;
     width: 65% !important;
-    // display: flex;
     flex-direction: row;
-    // align-items: center;
     div {
       width: 100%;
       height: 100%;
       display: flex;
       justify-content: flex-start !important;
       align-items: center;
-
-      // padding: 5% 0;
-      // @include display(flex, flex-start ,center )
     }
   }
 }
