@@ -12,10 +12,9 @@ export default function Header({ showInfo, setShowInfo }) {
       </div>
       <div>
       {showInfo
-        ? <button><CloseIcon onClick={() => setShowInfo(false)} /></button>
-        : <button><InfoOutlinedIcon onClick={() => setShowInfo(true)} /></button>
+        ? <button onClick={() => setShowInfo(false)} ><CloseIcon alt="close info" /></button>
+        : <button onClick={() => setShowInfo(true)}><InfoOutlinedIcon alt="see info"  /></button>
       }
-
       </div>
     </header>
   )

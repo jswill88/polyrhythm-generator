@@ -8,19 +8,19 @@ import * as Tone from 'tone';
 export function makeSynth(panner, gain) {
   return new Tone.Synth({
     oscillator: {
-      type: 'sine',
+      type:'sine'
     },
     envelope: {
-      attack: .2,
-      release: .5,
+      attack: .02,
+      attackCurve: 'exponential',
+      decay: .5,
+      decayCurve: 'exponential',
+      sustain: .1,
     },
     filter: {
-      Q: 2,
-      type: 'lowpass',
+      Q: 6,
     },
-    volume: 10,
-    portamento: 5,
-
+    volume: -12,
   }).chain(gain, panner).toDestination();
 }
 
