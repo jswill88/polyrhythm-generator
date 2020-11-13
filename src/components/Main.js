@@ -11,6 +11,10 @@ import PlayButton from './PlayButton';
 import useTempo from '../hooks/useTempo';
 import { makeSynth, makeLoop } from '../modules/synth';
 
+/**
+ * @name Main - Main body of the application that encompasses the 
+ * controls, and the blinking squares.
+ */
 export default function Main() {
 
   const [leftRhythm, setLeftRhythm] = useState(3);
@@ -26,7 +30,10 @@ export default function Main() {
   
   const [tempo, setTempo] = useTempo(rightRhythm);
 
-
+  /**
+   * @name setTimers - Starts the loop that plays the music and
+   * highlights the squares as the music happens
+   */
   const setTimers = async () => {
     setLeftHighlight(-1);
     setRightHighlight(-1);
@@ -36,6 +43,9 @@ export default function Main() {
     Tone.Transport.start('+0.1');
   }
 
+  /**
+   * Set up the initial levels and builds the synths to be used.
+   */
   useEffect(() => {
     if (started) {
       const gainNode = new Tone.Gain(.6);
@@ -53,6 +63,8 @@ export default function Main() {
     }
   }, [rightRhythm, leftRhythm, leftNote, rightNote, started])
 
+
+  /** Updates the volume when changed */
   useEffect(() => {
     if (started) {
       Tone.Destination.volume.rampTo(
@@ -61,23 +73,27 @@ export default function Main() {
     }
   }, [volume, started])
 
+  /** Updates the tempo when changed */
   useEffect(() => {
     if (started) {
       Tone.Transport.bpm.rampTo(tempo * rightRhythm,.2);
     }
   }, [tempo, rightRhythm, started])
 
+  /** Stop the music and blinking */
   const stop = async () => {
     unhighlight();
     Tone.Destination.volume.rampTo(-100, .3)
     Tone.Transport.stop('+0.1');
   }
 
+  /** Unhighlight the squares */
   const unhighlight = () => {
     setRightHighlight(-4)
     setLeftHighlight(-4)
   }
 
+  /** Change how many notes to play on the left side */
   const handleLeft = event => {
     if (event.target.value > 1) {
       setLeftError(false);
@@ -87,6 +103,7 @@ export default function Main() {
     }
   };
 
+  /** Change how many notes to play on the right side */
   const handleRight = event => {
     if (event.target.value > 1 &&
       event.target.value <= Math.floor(parseInt(leftRhythm) * 6)) {
@@ -97,8 +114,10 @@ export default function Main() {
     }
   };
 
+  /** Change the volume */
   const handleVolume = (e, value) => setVolume(value);
 
+  /** Thumb component for the volume slider */
   function Thumb(props) {
     let value = (props['aria-valuenow'] + 40) / 5 + 1
     return (
@@ -109,9 +128,9 @@ export default function Main() {
       </span>)
   };
 
-
+  /** Component for the subtitles */
   const SubTitle = ({ text }) => <div className="subtitle"><h2>{text}</h2></div>
-
+  
   return (
 
     <main>
