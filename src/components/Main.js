@@ -11,6 +11,7 @@ import PlayButton from './PlayButton';
 import useTempo from '../hooks/useTempo';
 import { makeSynth, makeLoop } from '../modules/synth';
 
+
 /**
  * @name Main - Main body of the application that encompasses the 
  * controls, and the blinking squares.
@@ -35,6 +36,7 @@ export default function Main() {
    * highlights the squares as the music happens
    */
   const setTimers = async () => {
+    
     setLeftHighlight(-1);
     setRightHighlight(-1);
     await Tone.start();
@@ -49,10 +51,10 @@ export default function Main() {
   useEffect(() => {
     if (started) {
       const gainNode = new Tone.Gain(.6);
-      const leftPanner = new Tone.Panner(.85)
-      const rightPanner = new Tone.Panner(-.85)
+      const leftPanner = new Tone.Panner(1)// (.85)
+      const rightPanner = new Tone.Panner(-1)//(-.85)
       const synth = makeSynth(leftPanner, gainNode);
-      const synth2 = makeSynth(rightPanner, gainNode)
+      const synth2 = makeSynth(rightPanner, gainNode);
       let lLoop = makeLoop(leftRhythm, synth, leftNote, rightRhythm, setLeftHighlight)
       let rLoop = makeLoop(rightRhythm, synth2, rightNote, leftRhythm, setRightHighlight)
 
