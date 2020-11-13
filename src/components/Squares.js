@@ -1,5 +1,7 @@
 
 import '../styles/Squares.scss'
+
+/** Squares that are highlighter as the music goes on */
 export default function Squares({ rhythm, side, highlight }) {
   const squares = [];
   for (let i = 0; i < rhythm; i++) {

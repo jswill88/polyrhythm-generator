@@ -1,4 +1,5 @@
 
+/** Note component sets the note to be used on either side */
 export default function Notes({ noteArray, note,  callback }) {
   return (
     <>

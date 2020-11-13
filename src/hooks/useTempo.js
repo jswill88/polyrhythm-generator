@@ -1,6 +1,9 @@
 import React, { useState, memo } from 'react';
 import { Slider } from '@material-ui/core';
 
+/**
+ * @name useTempo - This hook sets the tempo to be used in the app
+ */
 export default function useTempo() {
   const [tempo, setTempo] = useState(100);
   const [value, setValue] = useState(100)
