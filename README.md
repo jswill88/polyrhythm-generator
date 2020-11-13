@@ -22,5 +22,10 @@ npm start
 - SASS
 - Tone.js
 
+## Testing
+```
+npm test
+```
+
 ## License
 - MIT 
