@@ -26,11 +26,12 @@ export function makeSynth(panner, gain) {
 
 /**
  * @name makeLoop - Makes the loops that will be played by the synths
- * @param {Number} rhythm 
- * @param {Tone.Synth} synth 
- * @param {String} note 
- * @param {Number} oppRhythm 
- * @param {Number} highlight 
+ * @param {Number} rhythm - How often the note will play
+ * @param {Tone.Synth} synth - The synth that will be used for the loop
+ * @param {String} note - The name of the note
+ * @param {Number} oppRhythm - The rhythm of the oppposite synth
+ * @param {Number} highlight - Tracks which square will be highlighted
+ * @return {Tone.Loop} Loop that us played when "play" is pressed
  */
 export function makeLoop (rhythm, synth, note, oppRhythm, highlight) {
   return new Tone.Loop(time => {
