@@ -21,6 +21,7 @@ export default function useTempo() {
   return [
     tempo,
     <Slider
+      className="tempo"
       name="tempo"
       aria-label="tempo"
       min={40}
