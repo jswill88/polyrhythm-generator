@@ -1,6 +1,6 @@
-// import CloseIcon from '@material-ui/icons/Close';
+
 import '../styles/InfoCard.scss'
-export default function InfoCard({ setShowInfo }) {
+export default function InfoCard() {
   return (
     <div id="infoCard">
 
