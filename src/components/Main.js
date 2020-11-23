@@ -144,7 +144,7 @@ export default function Main() {
             title="Set the tempo for the base rhythm"
             className="control"
           >
-            <label htmlFor="tempo">BPM</label>
+            <label htmlFor="tempo">BPM: {tempo}</label>
             {setTempo}
           </div>
 

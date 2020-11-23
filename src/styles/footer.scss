@@ -3,6 +3,9 @@
 footer {
   background-color: $headerColor;
   height: 11vh;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   @include display(flex, flex-end, center);
   div {
     margin-right: 5%;
@@ -39,6 +42,12 @@ footer {
 @media only screen and (max-width: 480px) {
   footer {
     height: 8vh;
+    p {
+      font-size: .6em;
+    }
+    .MuiSvgIcon-root {
+      font-size: 1.5em;
+    }
   }
 }
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {

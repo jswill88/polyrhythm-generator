@@ -1,10 +1,10 @@
 @import 'App';
 
 .square {
-  height: 50%;
+  height: 50% ;
   max-height: 50px;
-  max-width: 100%;
   border-radius: 2px;
+  
 }
 .right.square {
   background-color: #E6E644;
@@ -14,12 +14,12 @@
 
 .right.square.highlight {
   @include highlight(fadeRight);
-  
 }
 
 .left.square {
   background-color: #44E695;
   opacity: .8;
+  
 }
 
 .left.square.highlight {
@@ -45,11 +45,16 @@
     background-color: #44E695;
   }
 }
+@media only screen and (max-device-width: 700px) and (orientation: portrait) {
+  .square, .highlight {
+    height: 50% !important;
+  }
+}
 @media only screen and (max-device-width: 700px) and (orientation: landscape) {
-  .square {
+  .square, .highlight {
     width: 50%;
     max-width: 30%;
     max-height: 100%;
-    height: 100% !important;
+    height: 100%;
   }
 }
