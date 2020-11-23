@@ -58,36 +58,14 @@ $headerColor: rgba(128, 128, 128, 0.249);
   }
 }
 
-span.PrivateValueLabel-label-5 {
-  color: white;
-  background-color: transparent;
-  font-size: 0.7em;
-}
-span.PrivateValueLabel-circle-4 {
-  color: transparent;
-  display: flex;
-  align-items: center;
-}
-span.PrivateValueLabel-offset-3 {
-  top: 6px;
-  left: -4px;
-}
-
 .MuiSlider {
   &-root {
     width: 100%;
     margin-left: 1vw;
     position: relative;
   }
-
   &-thumbColorPrimary {
-    position: absolute;
-    height: 25px;
-    width: 25px;
-    top: 0.9vh;
-    font-size: 0.7em;
-    background-color: #3f51b5;
-    color: white;
+    pointer-events: none;
   }
 }
 
@@ -97,7 +75,6 @@ span.PrivateValueLabel-offset-3 {
       width: 92%;
     }
     &-thumbColorPrimary {
-      top: 1.6vh;
       pointer-events: none;
     }
   }
@@ -107,52 +84,18 @@ span.PrivateValueLabel-offset-3 {
     align-items: flex-end;
 
     label {
-      margin-top: 5px;
+      margin-top: 2vh;
+      margin-bottom: -2vh;
       width: 100%;
       height: 100%;
     }
-  }
-}
-@media only screen and (max-device-width: 700px) and (orientation: landscape) {
-  .MuiSlider {
-    &-root {
-      width: 100%;
-    }
-    &-thumbColorPrimary {
-      top: 3vh;
-      pointer-events: none;
-    }
-  }
-} 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-  .MuiSlider {
-    &-root {
-      width: 92%;
-    }
-    &-thumbColorPrimary {
-      pointer-events: none;
-    }
-  }
-}
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
-  .MuiSlider-thumbColorPrimary {
-    top: 1.2vh;
-  }
-  .globalControls {
-    height: 6vh;
-  }
-}
-
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
-  .MuiSlider-thumbColorPrimary {
-    top: 1.5vh;
   }
 }
 
 #button {
   @include display(flex, space-evenly, center);
   height: 75%;
-  width: 100px;
+  width: 50%;
   cursor: pointer;
   background-color: rgba(26, 135, 26, 0.5);
   border: 2px solid white;
@@ -193,9 +136,6 @@ span.PrivateValueLabel-offset-3 {
   background-color: #fce4d809;
   &:first-of-type {
     align-items: flex-end;
-    .sideBody div {
-      justify-content: flex-end;
-    }
   }
   .subtitle {
     @include display(flex, center, center);
@@ -264,16 +204,26 @@ span.PrivateValueLabel-offset-3 {
 }
 
 @media only screen and (max-width: 480px) {
+  #button {
+    width: 100%;
+  }
   .blinkBox {
     height: 63vh;
   }
   .sideBody,
   .sideHeader {
     width: 90%;
-    flex-direction: column;
-    justify-content: baseline;
+  }
+  .sideBody {
+    height: 80%;
+    div {
+      flex-grow: 5;
+      height: 10%;
+    }
   }
   .sideHeader {
+    flex-direction: column;
+    justify-content: flex-start;
     height: 12%;
     margin-bottom: 1vh;
     .sideControl {
@@ -311,7 +261,8 @@ span.PrivateValueLabel-offset-3 {
     flex-direction: column;
     height: 70vh !important;
   }
-  .blinkBox, .blinkBox:first-of-type {
+  .blinkBox,
+  .blinkBox:first-of-type {
     padding: 0 1vh;
     display: flex;
     align-items: flex-start;
@@ -332,7 +283,7 @@ span.PrivateValueLabel-offset-3 {
       height: 100% !important;
       h2 {
         font-weight: bolder;
-        font-size: .8em;
+        font-size: 0.8em;
       }
     }
   }
@@ -343,14 +294,15 @@ span.PrivateValueLabel-offset-3 {
     .sideControl {
       width: 100%;
       label {
-        font-size: .9em;
+        font-size: 0.9em;
       }
-      input, select {
+      input,
+      select {
         height: 5vh;
       }
     }
   }
-  
+
   .sideBody {
     margin-left: 5%;
     width: 65% !important;
