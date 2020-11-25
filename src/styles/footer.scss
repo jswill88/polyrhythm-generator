@@ -62,6 +62,9 @@ footer {
     width: 100%;
     @include display(flex, space-around , center);
   }
+  footer {
+    position: static;
+  }
 }
 
 
