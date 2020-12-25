@@ -215,6 +215,7 @@ export default function Main() {
 
           <Squares
             rhythm={leftRhythm}
+            otherRhy={rightRhythm}
             side='left'
             highlight={rightHighlight}
           />
@@ -259,6 +260,7 @@ export default function Main() {
 
           <Squares
             rhythm={rightRhythm}
+            otherRhy={leftRhythm}
             side='right'
             highlight={leftHighlight}
           />
