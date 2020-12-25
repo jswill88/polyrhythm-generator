@@ -8,6 +8,7 @@ export default function Squares({ rhythm, side, highlight }) {
     squares.push(
       <div
         key={i}
+        className={`outer-${rhythm}`}
       >
         <div
           className={
