@@ -97,7 +97,7 @@ export default function Main() {
 
   /** Change how many notes to play on the left side */
   const handleLeft = event => {
-    if (event.target.value > 1) {
+    if (event.target.value > 1 && event.target.value <= 150) {
       setLeftError(false);
       setLeftRhythm(event.target.value)
     } else {
@@ -194,6 +194,7 @@ export default function Main() {
                 id="leftSub"
                 type="number"
                 min="2"
+                max="150"
                 defaultValue={leftRhythm}
                 onChange={handleLeft}
               />
@@ -204,7 +205,7 @@ export default function Main() {
               title="Set the pitch of the left note"
             >
               {leftError
-                ? <p>Input must be 2 or greater</p>
+                ? <p>Input must be between 2 and 150</p>
                 : Notes({
                   noteArray: ['Bb2', 'B2', 'C3', 'Db3', 'D3', 'Eb3', 'E3', 'F3', 'Gb3', 'G3', 'Ab3', 'A3'],
                   note: rightNote,
